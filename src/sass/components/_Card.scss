@@ -1,0 +1,15 @@
+
+.card-container {
+    min-width:32rem;
+    min-height: 15rem;
+  
+    border-radius: .5rem;
+    overflow: hidden;
+
+    &__header {
+      
+        padding:1rem;
+       
+        color:$white;
+    }
+}

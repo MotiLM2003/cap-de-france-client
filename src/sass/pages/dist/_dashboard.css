@@ -1,0 +1,11 @@
+.dashboard__cards {
+  display: flex;
+  min-width: 400px;
+  flex-wrap: wrap;
+  align-items: stretch;
+  flex-grow: 1;
+  gap: 1rem;
+}
+.dashboard__card-item {
+  flex-grow: 1;
+}

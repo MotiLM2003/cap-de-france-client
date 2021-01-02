@@ -1,0 +1,22 @@
+.dashboard {
+  
+
+ &__cards {
+     display:flex;
+    
+     flex-wrap: wrap;
+     align-items:stretch;
+     flex-grow: 1;
+     gap:2rem;
+     justify-content: center;
+ }
+
+ &__card-item {
+     min-width:68rem;;
+     max-width:82rem;
+    
+     flex-grow:1;
+     background:$white;
+ }
+}
+

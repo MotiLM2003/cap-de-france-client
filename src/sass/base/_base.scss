@@ -1,0 +1,152 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size:62.5%;
+}
+
+body {
+    font-size: 1.6rem;;
+    font-family: 'Roboto', sans-serif;
+   
+}
+
+a{ 
+    color:$white;
+    text-decoration: none;
+    text-align: center;
+    font-size:1.33rem;
+}
+
+ul {
+    margin:0;
+    padding:0;
+    li {
+        list-style-type: none;;
+    }
+}
+
+// WIDTH
+
+.w-1 {}
+
+
+// MARGIN
+.mb-1 { margin-bottom: .5rem;}
+.mb-2 { margin-bottom: 1rem;}
+.mb-3 { margin-bottom: 1.5rem;}
+.mb-4 { margin-bottom: 2rem;}
+
+
+.mt-1 { margin-top: .5rem}
+.mt-2 { margin-top: 1rem}
+.mt-3 { margin-top: 1.5rem}
+.mt-4 { margin-top: 2rem}
+.mt-5 { margin-top: 2.5rem}
+.mt-6 { margin-top: 3rem}
+.mt-7 { margin-top: 3.5rem}
+.mt-8 { margin-top: 4rem}
+.mt-9 { margin-top: 4.5rem}
+.mt-10 { margin-top: 5rem}
+.mt-11 { margin-top: 5.5rem}
+.mt-12 { margin-top: 6rem}
+.mt-13 { margin-top: 6.5rem}
+.mt-14 { margin-top: 7rem}
+.mt-15 { margin-top: 7.5rem}
+.mt-16 { margin-top: 8rem}
+.mt-17 { margin-top: 8.5rem}
+.mt-18 { margin-top: 9rem}
+.mt-19 { margin-top: 9.5rem}
+.mt-20 { margin-top: 10rem}
+// BACKGROUNDS
+.bg-transparent-white {
+    background:$transparent-white 
+}
+
+//  background colors
+.bg-blue { 
+    background:$blue;
+    border: 1px solid $blue;
+    color:$white;
+    
+
+}
+
+.bg-blue-dark { 
+    background:$blue-dark;
+    border: 1px solid $blue-dark;
+    color:$white;
+    padding:0.3rem;
+
+}
+
+.bg-info { 
+    background: $info;
+}
+
+
+.bg-gray-light {
+    background:$gray-light ;
+    border: 1px solid $gray-light ;
+    color:$black-dark;
+ }
+
+ 
+.bg-warning {
+    background-color:$danger;
+}
+
+.bg-success {
+    background-color:$success;
+}
+
+
+//  colors
+
+.blue {
+    color:$blue !important;
+}
+.blue-dark {
+    color:$blue-dark !important;
+}
+
+.gray-light { 
+    color:$gray-light !important;
+}
+
+.danger {
+    background:$danger;
+    padding:.4rem;
+    color:$white;
+    border-radius: .5rem;
+    width:100%;
+
+    text-align: center;;
+    font-size:1.2rem;
+    
+}
+
+// shapes
+.radius-s { 
+    border-radius: 0.5rem;
+}
+
+.radius-m  { border-radius: 1rem;}
+
+.radius-l  { border-radius: 1.5rem;}
+
+
+// misc
+
+.hide { display: none}
+.opacityOn {
+    opacity: 1 !important;
+    transition: 1s;
+}
+
+.opacityOff {
+    opacity: 0;
+}

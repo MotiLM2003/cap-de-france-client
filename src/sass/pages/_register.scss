@@ -1,0 +1,16 @@
+.register {
+    P,label{
+        font-size:1.5rem;
+        color: $white;
+        align-self: flex-start;
+        margin:.8rem 1rem;
+    }
+
+    
+    &__buttons {
+        @include flex-center;
+        width:100%;
+        justify-content: space-between;
+    }
+}
+
