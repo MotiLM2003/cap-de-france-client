@@ -15,10 +15,9 @@ body {
 }
 
 a{ 
-    color:$white;
+    color:inherit;
     text-decoration: none;
     text-align: center;
-    font-size:1.33rem;
 }
 
 ul {
@@ -74,7 +73,9 @@ ul {
     
 
 }
-
+.bg-blue-light { 
+    background:#89C4F4
+}
 .bg-blue-dark { 
     background:$blue-dark;
     border: 1px solid $blue-dark;
@@ -103,6 +104,13 @@ ul {
     background-color:$success;
 }
 
+.bg-white {
+    background-color:$white !important; 
+}
+
+.bg-grey {
+    background-color:$gray !important; 
+}
 
 //  colors
 
@@ -144,6 +152,8 @@ ul {
 .hide { display: none}
 .opacityOn {
     opacity: 1 !important;
+    transition: 1s;
+    transform:scale(1) !important;
     transition: 1s;
 }
 

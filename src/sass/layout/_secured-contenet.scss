@@ -16,6 +16,7 @@
         margin:0 1rem;
        
         min-width: 30rem;
+        max-width: 35rem;
     }
 
     &__menu-item {
@@ -66,11 +67,25 @@
     &__submenu {
         margin:.6rem 0 1rem 3rem;
        opacity: 0;
-       transition: 1s;
+       transition: all 1s;
+       transform:scale(0)
     }
 
     &__submenu-item {
-       padding:.4rem;
+       padding:.8rem;
+       text-align: left;
+       cursor:pointer;;
+       transition: .65s;
+       border-radius:5px;
+       margin-right: 1rem;
+    }
+    &__submenu-item:hover, &__submenu-item-selected {
+       
+            background: rgba($gray-light, .4) ;
+    }
+    &__submenu-item-selected {
+        opacity: 1;
+            background:$gray-light ;
     }
 }
 
@@ -82,5 +97,10 @@
      padding:2rem;
       li {
          padding:1rem;
+        
+     }
+
+     & ul li:hover {
+         background : $gray-light;
      }
 }

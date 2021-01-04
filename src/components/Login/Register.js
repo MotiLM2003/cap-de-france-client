@@ -1,26 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import img from '../../images/logo-cdf.png';
 import { Link } from 'react-router-dom';
-import SelectCountry from './SelectCountry';
+import SelectCountry from '../SelectCountry';
 import { motion } from 'framer-motion';
 import Error from './Error';
-const formObect = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-  country: '0',
-  userName: '',
-  password: '',
-  userName: '',
-  userPassword: '',
-  passwordConfirm: '',
-  isAgreed: false,
-};
-const Register = () => {
-  const [formData, setFormData] = useState(formObect);
+import { newUser } from '../../utils/models';
 
-  const [formErrors, setFormErrors] = useState({ ...formObect, isAgreed: '' });
+const Register = () => {
+  const [formData, setFormData] = useState(newUser);
+
+  const [formErrors, setFormErrors] = useState({ ...newUser, isAgreed: '' });
   const dataChanged = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -39,7 +28,7 @@ const Register = () => {
   };
 
   const onLogin = (e) => {
-    setFormErrors({ ...formObect });
+    setFormErrors({ ...newUser });
     if (formData.firstName.length < 2) {
       setFormErrors((prev) => ({ ...prev, firstName: 'Required field' }));
     }
@@ -156,15 +145,15 @@ const Register = () => {
             </label>
           </div>
           {formErrors.isAgreed && <Error error={formErrors.isAgreed} />}
-          <div class='register__buttons'>
+          <div className='register__buttons'>
             <Link
               to='/'
-              class='button bg-gray-light mt-1 login-container__login_button'
+              className='button bg-gray-light mt-1 login-container__login_button'
             >
               Retour
             </Link>
             <button
-              class='button bg-blue mt-1 login-container__login_button'
+              className='button bg-blue mt-1 login-container__login_button'
               onClick={onLogin}
             >
               Login

@@ -1,0 +1,14 @@
+.button {
+  outline: none;
+  padding: 0.7rem;
+  min-width: 100px;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition: 0.5s;
+  opacity: 0.7;
+  border: none;
+}
+.button:hover {
+  opacity: 1;
+  -webkit-perspective: 1000;
+}

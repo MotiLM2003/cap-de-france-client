@@ -3,7 +3,7 @@ import React from 'react';
 const SelectCountry = ({ country, onChange }) => {
   return (
     <select id='country' name='country' value={country} onChange={onChange}>
-      <option value='0'>-- Select Country --</option>
+      <option value='0'>-- Select a Country --</option>
       <option value='Afganistan'>Afghanistan</option>
       <option value='Albania'>Albania</option>
       <option value='Algeria'>Algeria</option>

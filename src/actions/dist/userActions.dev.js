@@ -27,8 +27,7 @@ var login = function login(userDetails) {
             dispatch({
               type: 'LOG_IN',
               payload: data.user
-            }); //   dispatch()
-
+            });
             _context.next = 11;
             break;
 

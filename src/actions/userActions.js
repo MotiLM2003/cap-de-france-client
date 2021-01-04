@@ -3,11 +3,11 @@ import api from '../apis/api';
 export const login = (userDetails) => async (dispatch) => {
   try {
     const { data } = await api.post('/users/login', userDetails);
+
     dispatch({
       type: 'LOG_IN',
       payload: data.user,
     });
-    //   dispatch()
   } catch (error) {
     console.log(error);
   }

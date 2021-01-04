@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import img from '../../../images/logo-2.png';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -6,13 +6,16 @@ import { Link } from 'react-router-dom';
 import { logOut } from '../../../actions/userActions';
 
 const Header = (props) => {
+  useEffect(() => {}, []);
   const logOut = () => {
     props.logOut();
   };
   return (
     <header className='header-container'>
       <div className='header-container__brand'>
-        <img src={img} alt='logo' />
+        <Link to='/dashboard'>
+          <img src={img} alt='logo' />
+        </Link>
         <input
           type='text'
           className='header-container__search'

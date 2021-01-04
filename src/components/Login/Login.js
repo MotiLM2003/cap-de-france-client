@@ -62,7 +62,7 @@ const Login = (props) => {
     <Redirect to='/dashboard' />
   ) : (
     <motion.div
-      class='login-container p-1'
+      className='login-container p-1'
       variants={containerVariants}
       initial='hidden'
       animate='visible'
@@ -88,7 +88,7 @@ const Login = (props) => {
             value={userDetails.password}
           />
           <motion.button
-            class='button bg-blue mt-1 mb-2 login-container__login_button'
+            className='button bg-blue mt-1 mb-2 login-container__login_button'
             onClick={initLogin}
           >
             Login
