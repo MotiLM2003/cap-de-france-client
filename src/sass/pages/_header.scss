@@ -37,7 +37,8 @@
 
     &__search:focus {
         width:50% !important;
-        border-color: $blue;
+        border-color: $blue-fade;
+        border-radius: 0;
     }
 
     &__icon-1 { 

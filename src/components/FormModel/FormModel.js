@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -11,6 +11,16 @@ const containerVariant = {
     scale: 1,
     borderRadius: 1,
     transition: { duration: 0.5, when: 'beforeChildren' },
+  },
+};
+
+const fadeInVariation = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.5 },
   },
 };
 
@@ -32,18 +42,38 @@ const cardVariant = {
   },
 };
 
-const FormModel = (props) => {
+const FormModel = ({
+  isVisible,
+  children,
+  containerAnimationType = 'fadeIn',
+  contentAnimationType = 'fadeIn',
+}) => {
+  let containerAnimation = null;
+  let contentAnimation = null;
+  switch (containerAnimationType) {
+    case 'fadeIn': {
+      containerAnimation = fadeInVariation;
+      break;
+    }
+  }
+
+  switch (contentAnimationType) {
+    case 'fadeIn': {
+      contentAnimation = fadeInVariation;
+      break;
+    }
+  }
   const modelRender = () => {
-    return props.isVisible ? (
+    return isVisible ? (
       <React.Fragment>
         <motion.div
           className='form-model'
-          variants={containerVariant}
+          variants={containerAnimation}
           initial='hidden'
           animate='visible'
         >
-          <motion.div className='form-model__card' variants={cardVariant}>
-            {props.children}
+          <motion.div className='form-model__card' variants={contentAnimation}>
+            {children}
           </motion.div>
         </motion.div>
       </React.Fragment>

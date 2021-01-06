@@ -9,14 +9,17 @@
      flex-grow: 1;
      gap:2rem;
      justify-content: center;
+    
  }
 
  &__card-item {
-     min-width:68rem;;
-     max-width:82rem;
-    
+     flex-basis:40%;
+     max-width: 50%;
+   
+    min-height: 45rem;
      flex-grow:1;
      background:$white;
+     flex-grow: 1;
  }
 }
 

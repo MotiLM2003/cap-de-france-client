@@ -2,18 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import api from '../../../apis/api';
 import { connect } from 'react-redux';
-import DatePicker from 'react-datepicker';
+import { motion, AnimatePresence } from 'framer-motion';
 import FormModel from '../../FormModel/FormModel';
-
 import { newUser } from '../../../utils/models';
 import SelectCountry from '../../SelectCountry';
-import SelectCampaign from '../../SelectCampaign';
-import SelectStatus from '../../SelectStatus';
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from '../../Loader/Loader';
-import 'react-datepicker/dist/react-datepicker.css';
 import PaginationToolbar from './PaginationToolbar';
 import CustomerItem from './CustomerItem';
+import Filters from './Filters';
 
 const sFilters = {
   firstName: '',
@@ -28,6 +25,7 @@ const sFilters = {
 };
 
 let totalPages = 1;
+let firstLoad = false;
 
 const Customers = (props) => {
   const [customers, setCustomers] = useState(null);
@@ -38,18 +36,23 @@ const Customers = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [orderBy, setOrderBy] = useState('_id');
   const [limit, setLimit] = useState(100);
   const fnRef = useRef();
   const lnRef = useRef();
   const phRef = useRef();
   const emRef = useRef();
+
   const getByOwner = async (filters) => {
     setIsLoading(true);
+    firstLoad = true;
+
     try {
       const { data } = await api.post('/customers/get-by-owner', {
         filters,
         page,
         limit,
+        orderBy,
       });
       const { customers, count } = data;
       setCustomers(customers);
@@ -66,28 +69,53 @@ const Customers = (props) => {
       owner: props.user._id,
     });
   };
+  useEffect(() => {
+    if (customers) {
+      setIsLoading(false);
+    }
+  }, [customers]);
 
   useEffect(() => {
     getByOwner(filters);
   }, []);
 
   useEffect(() => {
-    if (customers && customers.length > 0) {
-      setIsLoading(false);
+    if (customers) {
+      getByOwner(filters);
     }
-  }, [customers]);
+  }, [orderBy]);
 
   useEffect(() => {
-    if (customers && customers.length > 0) {
+    if (customers) {
       getByOwner(filters);
     }
   }, [filters.country, filters.status, filters.campaign, page]);
 
   useEffect(() => {
     totalPages = Math.ceil(totalRecords / limit);
+    if (page > totalPages) {
+      setPage(totalPages);
+    }
   }, [totalRecords]);
   const dataChanged = (e) => {
     setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value });
+  };
+
+  const addComment = async (comment) => {
+    try {
+      const { data } = await api.post('/comments/', comment);
+      toast.info('😍 New comment created.', {
+        position: 'bottom-left',
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: false,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const saveUser = async () => {
@@ -103,22 +131,58 @@ const Customers = (props) => {
     } else {
       const { data } = await api.post('/customers/register', newCustomer);
       setIsNewUser(false);
-      toast.info('🦄 Customer created.', {
+      toast.info('🤑 Customer created.', {
         position: 'bottom-left',
-        autoClose: 3000,
+        autoClose: 2500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: false,
         progress: false,
       });
-
       setNewCustomer(newUser);
     }
   };
 
   const filtersChanged = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
+  };
+
+  const updateCustomer = async (customer) => {
+    const newStatus = { ...customer, status: customer.status - 1 };
+
+    setCustomers(
+      customers.map((c) => {
+        if (c._id === customer._id) {
+          return newStatus;
+        }
+        return c;
+      })
+    );
+    ('trying');
+    try {
+      const { data } = await api.patch('customers/update', {
+        _id: customer._id,
+        update: { status: customer.status - 1 },
+      });
+      ('here');
+      toast.info('🤟 Status updated.', {
+        position: 'bottom-left',
+        autoClose: 2500,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.5,
+      },
+    },
   };
 
   return (
@@ -188,7 +252,6 @@ const Customers = (props) => {
         page={page}
         totalPages={totalPages}
         onChange={(e) => {
-          const page = e.target.value;
           setPage(e.target.value);
         }}
         totalRecords={totalRecords}
@@ -223,6 +286,28 @@ const Customers = (props) => {
           >
             Interested
           </button>
+          <button
+            className='customers__button button bg-info'
+            onClick={() => {
+              getByOwner(filters);
+            }}
+          >
+            Search
+          </button>
+          <button
+            className='customers__button  button bg-warning'
+            onClick={() => {
+              setFilters({ ...sFilters });
+              getByOwner(sFilters);
+              fnRef.current.value = '';
+              lnRef.current.value = '';
+              phRef.current.value = '';
+              emRef.current.value = '';
+              setPage(1);
+            }}
+          >
+            Reset
+          </button>
         </div>
         <div>
           <button
@@ -234,149 +319,53 @@ const Customers = (props) => {
         </div>
       </div>
       <div className='customers__table-container'>
-        <table className='customers__table'>
+        <motion.table
+          className='customers__table'
+          variants={container}
+          initial='hidden'
+          animate='show'
+        >
           <thead>
             <tr className='bg-grey'>
               <th>
                 <input type='checkbox' />
               </th>
               <th>id #</th>
-              <th>Date</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Phone</th>
-              <th>Status</th>
-              <th>Email</th>
-              <th>Country</th>
-              <th>Owner</th>
+              <th onClick={() => setOrderBy('createAt')}>Date</th>
+              <th onClick={() => setOrderBy('firstName')}>First Name</th>
+              <th onClick={() => setOrderBy('lastName')}>Last Name</th>
+              <th onClick={() => setOrderBy('phone')}>Phone</th>
+              <th onClick={() => setOrderBy('status')}>Status</th>
+              <th onClick={() => setOrderBy('email')}>Email</th>
+              <th onClick={() => setOrderBy('country')}>Country</th>
+              <th onClick={() => setOrderBy('owner')}>Owner</th>
               <th>Real Deposit</th>
-              <th>Campaign</th>
+              <th onClick={() => setOrderBy('campaign')}>Campaign</th>
+              <th>...</th>
             </tr>
-            <tr className='bg-white'>
-              <th>&nbsp;</th>
-              <th rowSpan='1' colSpan='1'>
-                &nbsp;
-              </th>
-              <th rowSpan='1' colSpan='1' className='customers__search-dates'>
-                <div>
-                  <DatePicker
-                    selected={filters.startDate}
-                    onChange={(date) =>
-                      setFilters({ ...filters, startDate: date })
-                    }
-                  />
-                </div>
-                <div>
-                  <DatePicker
-                    selected={filters.endDate}
-                    onChange={(date) =>
-                      setFilters({ ...filters, endDate: date })
-                    }
-                  />
-                </div>
-              </th>
-              <th rowSpan='1' colSpan='1'>
-                <div>
-                  <input
-                    ref={fnRef}
-                    type='text'
-                    name='firstName'
-                    onChange={filtersChanged}
-                  />
-                </div>
-              </th>
-              <th rowSpan='1' colSpan='1'>
-                <div>
-                  <input
-                    type='text'
-                    ref={lnRef}
-                    name='lastName'
-                    onChange={filtersChanged}
-                  />
-                </div>
-              </th>
-              <th rowSpan='1' colSpan='1'>
-                <div>
-                  <input
-                    type='text'
-                    ref={phRef}
-                    name='phone'
-                    onChange={filtersChanged}
-                  />
-                </div>
-              </th>
-              <th>
-                <SelectStatus
-                  value={filters.status}
-                  onChange={filtersChanged}
-                  name='status'
-                />
-              </th>
-              <th rowSpan='1' colSpan='1'>
-                <div>
-                  <input
-                    type='text'
-                    name='email'
-                    ref={emRef}
-                    onChange={filtersChanged}
-                  />
-                </div>
-              </th>
-              <th>
-                <SelectCountry
-                  value={filters.country}
-                  onChange={filtersChanged}
-                />
-              </th>
-              <th>&nbsp;</th>
-              <th className='customers__search-buttons'>
-                <div>
-                  <button
-                    className='button bg-info'
-                    onClick={() => {
-                      getByOwner(filters);
-                    }}
-                  >
-                    Search
-                  </button>
-                </div>
-                <div>
-                  <button
-                    className='button bg-warning'
-                    onClick={() => {
-                      setFilters({ ...sFilters });
-                      getByOwner(sFilters);
-                      fnRef.current.value = '';
-                      lnRef.current.value = '';
-                      phRef.current.value = '';
-                      emRef.current.value = '';
-                      setPage(1);
-                    }}
-                  >
-                    Reset
-                  </button>
-                </div>
-              </th>
-              <th>
-                <SelectCampaign
-                  value={filters.campaign}
-                  onChange={filtersChanged}
-                  name='campaign'
-                />
-              </th>
-            </tr>
+            <Filters
+              filters={filters}
+              setFilters={setFilters}
+              fnRef={fnRef}
+              filtersChanged={filtersChanged}
+              lnRef={lnRef}
+              phRef={phRef}
+              emRef={emRef}
+            />
           </thead>
           <tbody>
             {customers &&
               customers.map((customer, index) => (
                 <CustomerItem
+                  updateCustomer={updateCustomer}
                   key={customer._id}
                   customer={customer}
                   index={index}
+                  addComment={addComment}
                 />
               ))}
           </tbody>
-        </table>
+        </motion.table>
       </div>
       <ToastContainer />
     </div>
