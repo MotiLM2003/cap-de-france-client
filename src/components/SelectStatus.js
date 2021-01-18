@@ -3,9 +3,9 @@ import { statuses } from '../utils/static_data';
 const SelectCampaign = ({ name, value, onChange, withAnyOption = true }) => {
   return (
     <select value={value} onChange={onChange} name={name}>
-      {withAnyOption && <option value='0'>-- Any status --</option>}
+      {withAnyOption && <option value='-1'>-- Any status --</option>}
       {statuses.map((status, index) => (
-        <option key={index + 1} value={index + 1}>
+        <option key={index} value={index}>
           {status}
         </option>
       ))}

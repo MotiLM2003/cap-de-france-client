@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import img from '../../../images/logo-2.png';
+import img from '../../../images/logo.png';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -24,9 +24,14 @@ const Header = (props) => {
       </div>
       <div className='header-container__toolbar'>
         <Link to='/'>
-          <i className='fas fa-user-shield header-container__icon-1'></i>
+          {props.user.role.type.toLocaleLowerCase() === 'seller' ? (
+            <i class='fas fa-user'></i>
+          ) : (
+            <Link to='/manage/'>
+              <i className='fas fa-user-shield header-container__icon-1'></i>
+            </Link>
+          )}
         </Link>
-
         <i
           className='fas fa-sign-out-alt header-container__icon-2'
           onClick={logOut}
@@ -36,4 +41,9 @@ const Header = (props) => {
   );
 };
 
-export default connect(null, { logOut })(Header);
+const propToState = (state) => {
+  return {
+    user: state.userReducer,
+  };
+};
+export default connect(propToState, { logOut })(Header);

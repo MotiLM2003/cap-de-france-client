@@ -3,9 +3,12 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { motion } from 'framer-motion';
 import { login } from '../../actions/userActions';
+import Bubbles from '../Bubbles/Bubbles';
 import Error from './Error';
 
-import img from '../../images/logo-cdf.png';
+import logoIcon from '../../images/logo-icon.png';
+import logoText from '../../images/logo-text.png';
+import logo from '../../images/logo.png';
 const containerVariants = {
   hidden: {
     opacity: 0.2,
@@ -18,13 +21,29 @@ const containerVariants = {
 
 const logoVariant = {
   hidden: {
+    scale: 0,
     opacity: 0,
-    y: -50,
+    rotateY: 0,
+    y: '-4rem',
   },
   visible: {
-    y: 0,
+    scale: 1,
+    rotateY: 360,
     opacity: 1,
-    transition: { delay: 0.2, duration: 0.3, type: 'spring', stiffness: 120 },
+    transition: { delay: 0.1, duration: 1.4, type: 'tween', ease: 'easeInOut' },
+  },
+};
+
+const logoTextVariant = {
+  hidden: {
+    opacity: 0,
+
+    y: '-4rem',
+  },
+  visible: {
+    opacity: 1,
+
+    transition: { duration: 1, type: 'tween', ease: 'easeOut' },
   },
 };
 
@@ -37,6 +56,9 @@ const Login = (props) => {
 
   const [isSignedIn, setIsSignedIn] = useState(false);
 
+  useEffect(() => {
+    document.title = 'champagne Deutz';
+  }, []);
   useEffect(() => {
     const _isSignedIn = !!props.user?._id;
     setIsSignedIn(_isSignedIn);
@@ -67,8 +89,16 @@ const Login = (props) => {
       initial='hidden'
       animate='visible'
     >
+      <div className='login-container__corner-logo'>
+        <img src={logo} alit='logo' />
+      </div>
+      <Bubbles />
       <div className='login-container__login-info mt-15'>
-        <motion.img src={img} alt='logo' variants={logoVariant} />
+        <div class='login-container__logo-container'>
+          <motion.img src={logoIcon} alt='logo' variants={logoVariant} />
+          <motion.img src={logoText} alt='logo' variants={logoTextVariant} />
+        </div>
+
         <div className='card-container bg-transparent-white login-container__form_fields'>
           <input
             type='text'

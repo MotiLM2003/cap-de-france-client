@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Loader from '../../Loader/Loader';
 import { motion } from 'framer-motion';
 
@@ -32,6 +32,10 @@ const itemVariants = {
 };
 
 const Dashboard = () => {
+  useEffect(() => {
+    document.title = 'Champagne Deutz - Dashboard';
+  }, []);
+
   return (
     <div className='dashboard'>
       <motion.div

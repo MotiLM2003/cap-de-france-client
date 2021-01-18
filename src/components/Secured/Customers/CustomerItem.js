@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { usePresence } from 'framer-motion';
 import { campaigns, statuses } from '../../../utils/static_data';
@@ -8,14 +9,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getStatusClassName } from './utils/customers';
 import api from '../../../apis/api';
 import CustomersComments from './CustomersComments';
+import CommentsHistory from './CommentsHistory';
 
-const CustomerItem = ({ customer, index, updateCustomer, addComment }) => {
+const CustomerItem = ({
+  customer,
+  index,
+  updateCustomer,
+  addComment,
+  deleteComment,
+  onUserMarked,
+  showCheckbox,
+}) => {
   const [isPresent, safeToRemove] = usePresence();
   const [isVisible, setIsVisible] = useState(false);
   const commentRef = useRef();
   const [isCommentsvisible, setIsCommentsvisible] = useState(false);
   const statusClassName = getStatusClassName(customer);
-  const [status, setStatus] = useState(customer.status + 1);
+  const [status, setStatus] = useState(customer.status);
 
   useEffect(() => {
     !isPresent && setTimeout(safeToRemove, 1000);
@@ -30,15 +40,30 @@ const CustomerItem = ({ customer, index, updateCustomer, addComment }) => {
       owner: customer._id,
     });
   };
+
   return (
     <tr className={className}>
-      <td>
-        <input type='checkbox' />
-      </td>
-      <td>{customer._id}</td>
+      {showCheckbox ? (
+        <td>
+          <input
+            type='checkbox'
+            checked={customer.isMarked}
+            onChange={() => onUserMarked(customer)}
+          />
+        </td>
+      ) : null}
+
       <td>{date}</td>
-      <td>{customer.firstName}</td>
-      <td>{customer.lastName}</td>
+      <td>
+        <Link to={`/customers/details/${customer._id}`}>
+          {customer.firstName}
+        </Link>
+      </td>
+      <td>
+        <Link to={`/customers/details/${customer._id}`}>
+          {customer.lastName}
+        </Link>
+      </td>
       <td>{customer.phone}</td>
       <td>
         <div
@@ -83,9 +108,11 @@ const CustomerItem = ({ customer, index, updateCustomer, addComment }) => {
           {statuses[customer.status]}
         </div>
       </td>
-      <td>{customer.email}</td>
+      <td>
+        <Link to={`/customers/details/${customer._id}`}>{customer.email}</Link>
+      </td>
       <td>{customer.country}</td>
-      <td>{customer.owner?.firstName}</td>
+      <td>{customer.owner ? customer.owner.firstName : 'Uncontrolled'}</td>
       <td>0</td>
       <td>{campaigns[customer.campaign]}</td>
       <td
@@ -95,6 +122,11 @@ const CustomerItem = ({ customer, index, updateCustomer, addComment }) => {
         }}
       >
         <i class='fas fa-comment'></i>
+        {customer.comments?.length > 0 ? (
+          <div class='customers__comments_tag'>{customer.comments.length}</div>
+        ) : (
+          ''
+        )}
         <CustomersComments isVisible={isCommentsvisible}>
           <div className='customers__comment_content'>
             <div>
@@ -105,6 +137,7 @@ const CustomerItem = ({ customer, index, updateCustomer, addComment }) => {
                 ref={commentRef}
               ></textarea>
             </div>
+
             <div>
               <button
                 className='button bg-gray'
@@ -126,6 +159,12 @@ const CustomerItem = ({ customer, index, updateCustomer, addComment }) => {
                 Add new comment
               </button>
             </div>
+            {customer.comments && (
+              <CommentsHistory
+                commentsList={customer.comments}
+                deleteComment={deleteComment}
+              />
+            )}
           </div>
         </CustomersComments>
       </td>

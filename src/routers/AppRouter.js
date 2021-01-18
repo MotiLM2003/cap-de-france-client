@@ -8,8 +8,11 @@ import PublicRoute from './PublicRoute';
 import Header from '../components/Secured/Header/Header';
 import Dashboard from '../components/Secured/Dashboard/Dashboard';
 import Customers from '../components/Secured/Customers/Customers';
+import Manage from '../components/Secured/Manage/Manage';
+import CustomersDetails from '../components/Secured/CustomersDetails/CustomersDetails';
 import Planning from '../components/Secured/Planning/Planning';
 import OptionsMenu from '../components/Secured/Menu/OptionsMenu';
+import BackToTop from '../components/BackToTop/BackToTop';
 
 const AppRouter = ({ isAuthenticated }) => {
   const location = useLocation();
@@ -18,6 +21,7 @@ const AppRouter = ({ isAuthenticated }) => {
       <Header />
       <div className='secured-container__main-content'>
         <OptionsMenu />
+        <BackToTop />
         <div className='private-route-container'>
           <Switch location={location} key={location.key}>
             <PublicRoute exact path='/' component={Login} />
@@ -25,6 +29,11 @@ const AppRouter = ({ isAuthenticated }) => {
             <PrivateRoute exact path='/dashboard' component={Dashboard} />
             <PrivateRoute exact path='/planning' component={Planning} />
             <PrivateRoute exact path='/customers' component={Customers} />
+            <PrivateRoute exact path='/manage/' component={Manage} />
+            <PrivateRoute
+              path='/customers/details/:id'
+              component={CustomersDetails}
+            />
           </Switch>
         </div>
       </div>

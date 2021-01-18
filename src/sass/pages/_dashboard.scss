@@ -2,20 +2,13 @@
   
 
  &__cards {
-     display:flex;
-    
-     flex-wrap: wrap;
-     align-items:stretch;
-     flex-grow: 1;
-     gap:2rem;
-     justify-content: center;
+   @include flexWarp;
     
  }
 
  &__card-item {
      flex-basis:40%;
      max-width: 50%;
-   
     min-height: 45rem;
      flex-grow:1;
      background:$white;

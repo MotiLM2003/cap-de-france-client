@@ -40,7 +40,7 @@ const OptionsMenu = () => {
         onClick={() => setIsMenuOpen(!isMenuOpen)}
       >
         <label
-          labelFor='chbMenu'
+          labelfor='chbMenu'
           className={`secured-container__humburger ${
             !isMenuOpen ? '' : 'secured-container__menu--closed'
           }`}

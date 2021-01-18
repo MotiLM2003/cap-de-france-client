@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import api from '../../../apis/api';
 import { connect } from 'react-redux';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import FormModel from '../../FormModel/FormModel';
 import { newUser } from '../../../utils/models';
 import SelectCountry from '../../SelectCountry';
@@ -11,23 +11,26 @@ import Loader from '../../Loader/Loader';
 import PaginationToolbar from './PaginationToolbar';
 import CustomerItem from './CustomerItem';
 import Filters from './Filters';
-
-const sFilters = {
-  firstName: '',
-  lastName: '',
-  phone: '',
-  status: '0',
-  email: '',
-  country: '0',
-  campaign: '0',
-  startDate: '',
-  endDate: '',
-};
+import SellerDropdown from '../Custom/SellerDropdown/SellerDropdown';
 
 let totalPages = 1;
 let firstLoad = false;
 
 const Customers = (props) => {
+  const sFilters = {
+    firstName: '',
+    lastName: '',
+    phone: '',
+    status: '-1',
+    email: '',
+    country: '0',
+    campaign: '-1',
+    startDate: '',
+    endDate: '',
+    owner: props.user.role.type === 'admin' ? '0' : props.user._id,
+    showAll: false,
+  };
+
   const [customers, setCustomers] = useState(null);
   const [isNewUser, setIsNewUser] = useState(false);
   const [newCustomer, setNewCustomer] = useState(newUser);
@@ -38,6 +41,7 @@ const Customers = (props) => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [orderBy, setOrderBy] = useState('_id');
   const [limit, setLimit] = useState(100);
+  const [users, setUsers] = useState(null);
   const fnRef = useRef();
   const lnRef = useRef();
   const phRef = useRef();
@@ -54,8 +58,16 @@ const Customers = (props) => {
         limit,
         orderBy,
       });
+
       const { customers, count } = data;
-      setCustomers(customers);
+
+      // adding marked property to customers;
+      setCustomers(
+        customers.map((c) => {
+          c.isMarked = false;
+          return c;
+        })
+      );
       setTotalRecords(count);
     } catch (error) {
       setIsLoading(false);
@@ -76,7 +88,17 @@ const Customers = (props) => {
   }, [customers]);
 
   useEffect(() => {
+    document.title = 'Champagne Deutz - Customers';
     getByOwner(filters);
+    const getUsers = async () => {
+      try {
+        const { data } = await api.get('users/');
+        setUsers(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUsers();
   }, []);
 
   useEffect(() => {
@@ -89,7 +111,14 @@ const Customers = (props) => {
     if (customers) {
       getByOwner(filters);
     }
-  }, [filters.country, filters.status, filters.campaign, page]);
+  }, [
+    filters.country,
+    filters.status,
+    filters.campaign,
+    page,
+    filters.owner,
+    filters.showAll,
+  ]);
 
   useEffect(() => {
     totalPages = Math.ceil(totalRecords / limit);
@@ -113,6 +142,18 @@ const Customers = (props) => {
         draggable: false,
         progress: false,
       });
+
+      const newCustomer = customers.map((c, index) => {
+        if (c._id === comment.owner) {
+          if (!c.comments) {
+            c.comments = [comment];
+          } else {
+            c.comments.push(comment);
+          }
+        }
+        return c;
+      });
+      setCustomers(newCustomer);
     } catch (err) {
       console.log(err);
     }
@@ -144,12 +185,50 @@ const Customers = (props) => {
     }
   };
 
+  const deleteComment = async ({ _id }) => {
+    try {
+      const { data } = await api.delete(`/comments/delete/${_id}`);
+
+      const newCustomer = customers.map((c) => {
+        if (c.comments.length > 0) {
+          const newComments = c.comments.filter((x) => x._id !== _id);
+          const temp = { ...c, comments: newComments };
+
+          return temp;
+        }
+        return c;
+      });
+      setIsNewUser(false);
+      toast.info('👽 Comment deleted.', {
+        position: 'bottom-left',
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: false,
+      });
+      setCustomers(newCustomer);
+    } catch (err) {
+      toast.info('😡 Something went worng', {
+        position: 'bottom-left',
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: false,
+      });
+    }
+  };
+
   const filtersChanged = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
   const updateCustomer = async (customer) => {
-    const newStatus = { ...customer, status: customer.status - 1 };
+    console.log(customer.status);
+    const newStatus = { ...customer, status: customer.status };
 
     setCustomers(
       customers.map((c) => {
@@ -159,13 +238,13 @@ const Customers = (props) => {
         return c;
       })
     );
-    ('trying');
+
     try {
       const { data } = await api.patch('customers/update', {
         _id: customer._id,
-        update: { status: customer.status - 1 },
+        update: { status: customer.status },
       });
-      ('here');
+
       toast.info('🤟 Status updated.', {
         position: 'bottom-left',
         autoClose: 2500,
@@ -185,6 +264,19 @@ const Customers = (props) => {
     },
   };
 
+  const onUserChanged = (id) => {
+    const _id = id.target.value;
+    setFilters({ ...filters, owner: _id });
+  };
+
+  const onUserMarked = (c) => {
+    setCustomers(
+      customers.map((cx) => {
+        if (c._id === cx._id) cx.isMarked = !cx.isMarked;
+        return cx;
+      })
+    );
+  };
   return (
     <div className='customers'>
       {isLoading && <Loader />}
@@ -267,7 +359,7 @@ const Customers = (props) => {
         }}
       />
       <div className='customers__toolbar'>
-        <div>
+        <div class='customers__toolbar-buttons'>
           <button
             className='customers__button button bg-warning'
             onClick={() => setFilters({ ...filters, status: 1 })}
@@ -308,6 +400,34 @@ const Customers = (props) => {
           >
             Reset
           </button>
+
+          {props.user.role.type === 'admin' && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <SellerDropdown
+                users={users}
+                defaultText='Un Controlled'
+                onUserChange={onUserChanged}
+              />
+              {filters.owner === '0' ? (
+                <div>
+                  <input
+                    type='checkbox'
+                    checked={filters.showAll}
+                    onChange={() =>
+                      setFilters({ ...filters, showAll: !filters.showAll })
+                    }
+                  />{' '}
+                  <label>Show all (without uncontrolled)</label>
+                </div>
+              ) : null}
+            </div>
+          )}
         </div>
         <div>
           <button
@@ -327,10 +447,22 @@ const Customers = (props) => {
         >
           <thead>
             <tr className='bg-grey'>
-              <th>
-                <input type='checkbox' />
-              </th>
-              <th>id #</th>
+              {props.user.role.type === 'admin' ? (
+                <th>
+                  <input
+                    type='checkbox'
+                    onClick={(e) =>
+                      setCustomers(
+                        customers.map((c) => {
+                          c.isMarked = e.target.checked;
+                          return c;
+                        })
+                      )
+                    }
+                  />
+                </th>
+              ) : null}
+
               <th onClick={() => setOrderBy('createAt')}>Date</th>
               <th onClick={() => setOrderBy('firstName')}>First Name</th>
               <th onClick={() => setOrderBy('lastName')}>Last Name</th>
@@ -351,6 +483,7 @@ const Customers = (props) => {
               lnRef={lnRef}
               phRef={phRef}
               emRef={emRef}
+              showCheckbox={props.user.role.type === 'admin'}
             />
           </thead>
           <tbody>
@@ -362,6 +495,9 @@ const Customers = (props) => {
                   customer={customer}
                   index={index}
                   addComment={addComment}
+                  deleteComment={deleteComment}
+                  onUserMarked={onUserMarked}
+                  showCheckbox={props.user.role.type === 'admin'}
                 />
               ))}
           </tbody>

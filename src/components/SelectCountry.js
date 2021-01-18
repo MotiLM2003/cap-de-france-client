@@ -1,8 +1,14 @@
 import React from 'react';
 
-const SelectCountry = ({ country, onChange }) => {
+const SelectCountry = ({ country, onChange, disabled }) => {
   return (
-    <select id='country' name='country' value={country} onChange={onChange}>
+    <select
+      id='country'
+      name='country'
+      value={country}
+      onChange={onChange}
+      disabled={disabled}
+    >
       <option value='0'>-- Select a Country --</option>
       <option value='Afganistan'>Afghanistan</option>
       <option value='Albania'>Albania</option>

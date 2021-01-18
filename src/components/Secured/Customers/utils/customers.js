@@ -1,6 +1,7 @@
 export const getStatusClassName = (customer) => {
   let statusClassName = '';
-  switch (customer.status) {
+
+  switch (parseInt(customer.status)) {
     case 0: {
       statusClassName = 'bg-gray-light';
       break;
@@ -38,6 +39,5 @@ export const getStatusClassName = (customer) => {
       break;
     }
   }
-
   return statusClassName;
 };

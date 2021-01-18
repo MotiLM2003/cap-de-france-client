@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import img from '../../images/logo-cdf.png';
+import logo from '../../images/logo.png';
 import { Link } from 'react-router-dom';
 import SelectCountry from '../SelectCountry';
 import { motion } from 'framer-motion';
+import api from '../../apis/api';
 import Error from './Error';
-import { newUser } from '../../utils/models';
+import { newCustomer as defaultCustomer } from '../../utils/models';
+import Bubbles from '../Bubbles/Bubbles';
 
 const Register = () => {
-  const [formData, setFormData] = useState(newUser);
+  const tempCustomer = { ...defaultCustomer, campaign: 0 };
 
-  const [formErrors, setFormErrors] = useState({ ...newUser, isAgreed: '' });
+  const [formData, setFormData] = useState(tempCustomer);
+  const [serverResponse, setServerResponse] = useState(null);
+  const [formErrors, setFormErrors] = useState({
+    ...tempCustomer,
+    isAgreed: '',
+  });
   const dataChanged = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -27,37 +34,65 @@ const Register = () => {
     },
   };
 
+  const registerCustomer = async () => {
+    let response = null;
+    try {
+      response = await api.post('/customers/register', formData);
+      console.log('response', response);
+      setServerResponse(1);
+      setFormData(tempCustomer);
+    } catch (err) {
+      const { data } = err.response;
+      console.log(data);
+      setServerResponse(2);
+    }
+  };
+
   const onLogin = (e) => {
-    setFormErrors({ ...newUser });
+    setFormErrors({ ...tempCustomer });
+    let hasErrors = false;
     if (formData.firstName.length < 2) {
       setFormErrors((prev) => ({ ...prev, firstName: 'Required field' }));
+      hasErrors = true;
     }
     if (formData.lastName.length < 2) {
       setFormErrors((prev) => ({ ...prev, lastName: 'Required field' }));
+      hasErrors = true;
     }
     if (formData.email.length < 2) {
       setFormErrors((prev) => ({ ...prev, email: 'Required field' }));
+      hasErrors = true;
     }
 
     if (formData.country === '0') {
       setFormErrors((prev) => ({ ...prev, country: 'Required field' }));
+      hasErrors = true;
     }
     if (formData.phone.length < 2) {
       setFormErrors((prev) => ({ ...prev, phone: 'Required field' }));
+      hasErrors = true;
     }
     if (formData.userName.length < 2) {
       setFormErrors((prev) => ({ ...prev, userName: 'Required field' }));
+      hasErrors = true;
     }
     if (formData.userPassword.length < 2) {
       setFormErrors((prev) => ({ ...prev, userPassword: 'Required field' }));
+      hasErrors = true;
     }
     if (formData.passwordConfirm.length < 2) {
       setFormErrors((prev) => ({ ...prev, passwordConfirm: 'Required field' }));
+      hasErrors = true;
     }
     if (!formData.isAgreed) {
       setFormErrors((prev) => ({ ...prev, isAgreed: 'Required field' }));
+      hasErrors = true;
+    }
+    if (!hasErrors) {
+      registerCustomer();
     }
   };
+  console.log(serverResponse);
   return (
     <motion.div
       className='login-container register'
@@ -65,9 +100,26 @@ const Register = () => {
       initial='hidden'
       animate='visible'
     >
+      <div className='login-container__corner-logo'>
+        <img src={logo} alit='logo' />
+      </div>
+      <Bubbles />
       <div className='login-container__login-info register__login-info mt-15'>
-        <img src={img} alt='logo' />
-        <div className='card-container bg-transparent-white login-container__form_fields'>
+        <img src={logo} alt='logo' />
+        <div className='card-container bg-transparent-white register__form_fields'>
+          {serverResponse && (
+            <div
+              className={
+                serverResponse === 1
+                  ? 'register__server-response bg-success'
+                  : 'register__server-response bg-warning'
+              }
+            >
+              {serverResponse == 1
+                ? "You've been added"
+                : 'Email already exists.'}
+            </div>
+          )}
           <input
             type='text'
             placeholder='Nom de famille'
@@ -156,7 +208,7 @@ const Register = () => {
               className='button bg-blue mt-1 login-container__login_button'
               onClick={onLogin}
             >
-              Login
+              Register
             </button>
           </div>
         </div>

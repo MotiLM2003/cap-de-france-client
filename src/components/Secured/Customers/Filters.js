@@ -14,13 +14,12 @@ const Filters = ({
   lnRef,
   phRef,
   emRef,
+  showCheckbox,
 }) => {
   return (
     <tr className='bg-white'>
-      <th>&nbsp;</th>
-      <th rowSpan='1' colSpan='1'>
-        &nbsp;
-      </th>
+      {showCheckbox && <th>&nbsp;</th>}
+
       <th rowSpan='1' colSpan='1' className='customers__search-dates'>
         <div>
           <DatePicker
