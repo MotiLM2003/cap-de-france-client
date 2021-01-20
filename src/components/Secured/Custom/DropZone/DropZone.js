@@ -45,7 +45,7 @@ const DropZone = ({ onResponse }) => {
     isDragReject,
   } = useDropzone({
     maxFiles: 10,
-    // accept: '.xlsx',
+    accept: '.xlsx',
   });
 
   const [progress, setProgress] = useState(0);
@@ -79,21 +79,23 @@ const DropZone = ({ onResponse }) => {
 
       return;
     }
-    acceptedFiles.map((file) => fd.append('file', file));
-    const { data } = await api.post('files/import-customers', fd, {
-      onUploadProgress: (progressEvent) => {
-        const p = Math.round(
-          (progressEvent.loaded / progressEvent.total) * 100
-        );
+    setProgress(0);
 
-        setProgress(p);
-      },
-    });
-    setTimeout(() => {
-      console.log(acceptedFiles[0]);
-      setProgress(0);
-    }, 1000);
-    onResponse(data);
+    setTimeout(async () => {
+      acceptedFiles.map((file) => fd.append('file', file));
+      const { data } = await api.post('files/import-customers', fd, {
+        onUploadProgress: (progressEvent) => {
+          const p = Math.round(
+            (progressEvent.loaded / progressEvent.total) * 100
+          );
+
+          setProgress(p);
+        },
+      });
+
+      // setProgress(0);
+      onResponse(data);
+    }, 1500);
   };
 
   return (

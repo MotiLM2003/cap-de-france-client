@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import DropZone from '../../../Custom/DropZone/DropZone';
 import { ToastContainer, toast } from 'react-toastify';
+import { motion } from 'framer-motion';
+
 import { newCustomer } from '../../../../../utils/models';
 import { statuses } from '../../../../../utils/static_data';
 import SellerDropdown from '../../../Custom/SellerDropdown/SellerDropdown';
@@ -22,6 +24,32 @@ const ImportCustomers = () => {
     console.log(newUsers);
     setUsers(newUsers.users);
     setFileId(newUsers.id);
+  };
+
+  const container = {
+    hidden: { y: '-20vh', opacity: 0 },
+    show: {
+      y: 0,
+      opacity: 1,
+
+      transition: {
+        type: 'spring',
+        bounce: 0.35,
+      },
+    },
+  };
+
+  const noFilesVariant = {
+    hidden: { opacity: 0, scale: 0 },
+    show: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        type: 'spring',
+        bounce: 0.25,
+        stiffness: 50,
+      },
+    },
   };
 
   const inputChange = (e) => {
@@ -47,6 +75,9 @@ const ImportCustomers = () => {
     }
   };
 
+  const canceelUpload = () => {
+    setUsers(null);
+  };
   const createCustomers = async () => {
     const payload = {
       fileId,
@@ -86,7 +117,13 @@ const ImportCustomers = () => {
   const renderUserContent = () => {
     return (
       users && (
-        <div className='import-customers__list'>
+        <motion.div
+          className='import-customers__list'
+          className='customers__table'
+          variants={container}
+          initial='hidden'
+          animate='show'
+        >
           <div className={`import-customers__item bg-info`}>
             <div style={{ width: '1rem' }}>#</div>
             <div>First name</div>
@@ -123,8 +160,11 @@ const ImportCustomers = () => {
             <button className='button bg-success' onClick={createCustomers}>
               Confirm
             </button>
+            <button className='button bg-warning' onClick={canceelUpload}>
+              Cancel
+            </button>
           </div>
-        </div>
+        </motion.div>
       )
     );
   };
@@ -157,7 +197,14 @@ const ImportCustomers = () => {
   const renderNoUpload = () => {
     return (
       !users && (
-        <div className='import-customers__no-upload'>No files uploaded</div>
+        <motion.div
+          variants={noFilesVariant}
+          initial='hidden'
+          animate='show'
+          className='import-customers__no-upload'
+        >
+          No files uploaded
+        </motion.div>
       )
     );
   };
