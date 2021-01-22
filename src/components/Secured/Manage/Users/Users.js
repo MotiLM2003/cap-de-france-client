@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+
 import SellerDropdown from '../../Custom/SellerDropdown/SellerDropdown';
 import RoleDropdown from '../../Custom/RoleDropdown/RoleDropdown';
 import api from '../../../../apis/api';
@@ -56,17 +58,17 @@ const Users = () => {
       _id: currentUser._id,
       update: currentUser,
     });
-    console.log(data._id);
-    if (data._id != '0') {
-      console.log('here');
+    if (currentUser._id != '0') {
       setUsers(
         users.map((user) => {
           return user._id === currentUser._id ? { ...currentUser } : user;
         })
       );
+      toast.success('👍  User details was updated.');
     } else {
       setUsers([...users, data]);
       setCurrentUser(data);
+      toast.success('👍  New user added to the system.');
     }
   };
   const buttonText = currentUser._id === 0 ? 'Create new user' : 'Update user';
@@ -138,6 +140,7 @@ const Users = () => {
           </button>
         </div>
       </div>
+      <ToastContainer position='bottom-left' autoClose={2500} />
     </div>
   );
 };

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+
 import api from '../../../../../apis/api';
 import { newCustomer } from '../../../../../utils/models';
 import SellerDropdown from '../../../Custom/SellerDropdown/SellerDropdown';
@@ -14,8 +16,13 @@ const CreateCustomer = () => {
     let response = null;
     try {
       response = await api.post('/customers/register', currentUser);
+      toast.success('👍 Customer details was successfully registered.');
+      console.log(response);
     } catch (err) {
       const { data } = err.response;
+      toast.error(
+        '⚠️ Error saving customer. Please check if email already exists.'
+      );
     }
   };
 
@@ -73,6 +80,7 @@ const CreateCustomer = () => {
         setUsers(data);
       } catch (err) {
         console.log(err);
+        toast.error('⚠️ Error loading users list.');
       }
     };
 
@@ -179,6 +187,7 @@ const CreateCustomer = () => {
           </button>
         </div>
       </div>
+      <ToastContainer position='bottom-left' autoClose={2500} />
     </div>
   );
 };

@@ -71,7 +71,7 @@ const Customers = (props) => {
       setTotalRecords(count);
     } catch (error) {
       setIsLoading(false);
-      toast.warning('Error loading data');
+      toast.error('Error loading data');
       console.log(error);
     }
 

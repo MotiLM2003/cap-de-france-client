@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Users from './Users/Users';
-import Inventory from './Inventory/Inventory';
+import ManageInventoryMenu from './ManageInventory/ManageInventoryMenu';
 import ManageCustomers from './ManageCustomers/ManageCustomers';
 const Manage = () => {
   const [menu, setMenu] = useState(1);
@@ -23,7 +23,7 @@ const Manage = () => {
         return <ManageCustomers />;
       }
       case 3: {
-        return <Inventory />;
+        return <ManageInventoryMenu />;
       }
       default: {
         return <Users />;
