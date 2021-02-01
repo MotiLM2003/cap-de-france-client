@@ -55,12 +55,12 @@ const CustomerItem = ({
 
       <td>{date}</td>
       <td>
-        <Link to={`/customers/details/${customer._id}`}>
+        <Link to={`/backoffice/customers/details/${customer._id}`}>
           {customer.firstName}
         </Link>
       </td>
       <td>
-        <Link to={`/customers/details/${customer._id}`}>
+        <Link to={`/backoffice/backoffice/customers/details/${customer._id}`}>
           {customer.lastName}
         </Link>
       </td>
@@ -71,7 +71,7 @@ const CustomerItem = ({
           onClick={() => setIsVisible(true)}
         >
           <FormModel isVisible={isVisible} blockingBackground={false}>
-            <div class='customers__set-status'>
+            <div className='customers__set-status'>
               <SelectStatus
                 value={status}
                 withAnyOption={false}
@@ -109,7 +109,9 @@ const CustomerItem = ({
         </div>
       </td>
       <td>
-        <Link to={`/customers/details/${customer._id}`}>{customer.email}</Link>
+        <Link to={`/backoffice/customers/details/${customer._id}`}>
+          {customer.email}
+        </Link>
       </td>
       <td>{customer.country}</td>
       <td>{customer.owner ? customer.owner.firstName : 'Uncontrolled'}</td>
@@ -121,9 +123,11 @@ const CustomerItem = ({
           setIsCommentsvisible(true);
         }}
       >
-        <i class='fas fa-comment'></i>
+        <i className='fas fa-comment'></i>
         {customer.comments?.length > 0 ? (
-          <div class='customers__comments_tag'>{customer.comments.length}</div>
+          <div className='customers__comments_tag'>
+            {customer.comments.length}
+          </div>
         ) : (
           ''
         )}

@@ -162,10 +162,9 @@ ul {
 
 .bg-blue-deep-inverse {
   border-color: $blue-deep !important;
-  border: 2px solid $blue-deep !important;
+  border: 1px solid $blue-deep !important;
   background: transparent !important;
   color: $blue-deep !important;
-  border-radius: 1.5rem !important;
 }
 
 .bg-turq {
@@ -230,4 +229,34 @@ ul {
 
 .opacityOff {
   opacity: 0;
+}
+
+.w-50 {
+  width: 5rem;
+}
+
+.w-75 {
+  width: 7.5rem;
+}
+
+.w-100 {
+  width: 10rem;
+}
+
+.w-125 {
+  width: 12.5rem;
+}
+.w-150 {
+  width: 15rem;
+}
+
+.w-175 {
+  width: 17.5rem;
+}
+
+.w-200 {
+  width: 20rem;
+}
+.w-250 {
+  width: 25rem;
 }

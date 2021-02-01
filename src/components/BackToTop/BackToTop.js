@@ -27,7 +27,7 @@ const BackToTop = () => {
 
   return (
     <div className='back-to-top' ref={buttonRef}>
-      <i class='fas fa-arrow-alt-circle-up'></i>
+      <i className='fas fa-arrow-alt-circle-up'></i>
     </div>
   );
 };

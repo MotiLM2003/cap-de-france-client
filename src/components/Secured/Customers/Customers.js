@@ -9,8 +9,10 @@ import SelectCountry from '../../SelectCountry';
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from '../../Loader/Loader';
 import PaginationToolbar from './PaginationToolbar';
+import SwitchCustomer from './SwitchCustomer';
 import CustomerItem from './CustomerItem';
 import Filters from './Filters';
+
 import SellerDropdown from '../Custom/SellerDropdown/SellerDropdown';
 
 let totalPages = 1;
@@ -34,11 +36,14 @@ const Customers = (props) => {
   const [customers, setCustomers] = useState(null);
   const [isNewUser, setIsNewUser] = useState(false);
   const [newCustomer, setNewCustomer] = useState(newUser);
+  const [isSwitchCustomer, setIsSwitchCustomer] = useState(false);
+
   const [formError, setFormError] = useState('');
   const [filters, setFilters] = useState(sFilters);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalRecords, setTotalRecords] = useState(0);
+  const [isUserSelected, setUserSelected] = useState(false);
   const [orderBy, setOrderBy] = useState('_id');
   const [limit, setLimit] = useState(100);
   const [users, setUsers] = useState(null);
@@ -85,6 +90,7 @@ const Customers = (props) => {
     if (customers) {
       setIsLoading(false);
     }
+    console.log(customers);
   }, [customers]);
 
   useEffect(() => {
@@ -126,6 +132,7 @@ const Customers = (props) => {
       setPage(totalPages);
     }
   }, [totalRecords]);
+
   const dataChanged = (e) => {
     setNewCustomer({ ...newCustomer, [e.target.name]: e.target.value });
   };
@@ -245,6 +252,7 @@ const Customers = (props) => {
         update: { status: customer.status },
       });
 
+      console.log(data);
       toast.info('🤟 Status updated.', {
         position: 'bottom-left',
         autoClose: 2500,
@@ -276,6 +284,22 @@ const Customers = (props) => {
         return cx;
       })
     );
+  };
+
+  const changeSwithCustomers = () => {
+    const isOn = isSwitchCustomer;
+    console.log(isOn);
+    setIsSwitchCustomer((prev) => !prev);
+    if (isOn) {
+      setFilters({ ...filters, showAll: false });
+      console.log('fired');
+      // getByOwner(filters);
+    }
+  };
+
+  const swithcCustomersSubmit = () => {
+    setIsSwitchCustomer(false);
+    getByOwner(filters);
   };
   return (
     <div className='customers'>
@@ -359,7 +383,7 @@ const Customers = (props) => {
         }}
       />
       <div className='customers__toolbar'>
-        <div class='customers__toolbar-buttons'>
+        <div className='customers__toolbar-buttons'>
           <button
             className='customers__button button bg-warning'
             onClick={() => setFilters({ ...filters, status: 1 })}
@@ -403,6 +427,7 @@ const Customers = (props) => {
 
           {props.user.role.type === 'admin' && (
             <div
+              className='customers__admin-panel'
               style={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -422,10 +447,18 @@ const Customers = (props) => {
                     onChange={() =>
                       setFilters({ ...filters, showAll: !filters.showAll })
                     }
-                  />{' '}
-                  <label>Show all (without uncontrolled)</label>
+                  />
+                  <label> Show all (without uncontrolled) </label>
                 </div>
               ) : null}
+              {customers && customers.filter((x) => x.isMarked).length > 0 && (
+                <button
+                  className='button  bg-success'
+                  onClick={changeSwithCustomers}
+                >
+                  Switch Cusomers
+                </button>
+              )}
             </div>
           )}
         </div>
@@ -503,6 +536,15 @@ const Customers = (props) => {
           </tbody>
         </motion.table>
       </div>
+      {isSwitchCustomer && (
+        <FormModel isVisible={isSwitchCustomer}>
+          <SwitchCustomer
+            changeSwithCustomers={changeSwithCustomers}
+            swithcCustomersSubmit={swithcCustomersSubmit}
+            customers={customers}
+          />
+        </FormModel>
+      )}
       <ToastContainer />
     </div>
   );

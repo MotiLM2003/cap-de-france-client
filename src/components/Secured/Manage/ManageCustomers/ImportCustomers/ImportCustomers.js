@@ -56,7 +56,6 @@ const ImportCustomers = () => {
     let value = e.target.value;
     const name = e.target.name;
     const ownerName = e.target.options[e.target.selectedIndex].text;
-    console.log('change', e.target.options[e.target.selectedIndex].text);
     if (name === 'owner' && value === '0') {
       value = undefined;
     }
@@ -89,7 +88,6 @@ const ImportCustomers = () => {
         'files//execute-import-customers',
         payload
       );
-      console.log(data);
       setUsers(null);
       toast.success(`😍 ${data.length} Customers created.`, {
         position: 'bottom-left',

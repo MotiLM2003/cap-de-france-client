@@ -1,6 +1,7 @@
 import { Switch, Route, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Login from '../components/Login/Login';
+import UserLogin from '../components/Login/UserLogin';
 import Register from '../components/Login/Register';
 import PrivateRoute from './PrivateRoute';
 import PublicRoute from './PublicRoute';
@@ -16,39 +17,55 @@ import BackToTop from '../components/BackToTop/BackToTop';
 
 const AppRouter = ({ isAuthenticated }) => {
   const location = useLocation();
-  const authRender = () => (
-    <div className='secured-container'>
-      <Header />
-      <div className='secured-container__main-content'>
-        <OptionsMenu />
-        <BackToTop />
-        <div className='private-route-container'>
-          <Switch location={location} key={location.key}>
-            <PublicRoute exact path='/' component={Login} />
-            <Route exact path='/register' component={Register} />
-            <PrivateRoute exact path='/dashboard' component={Dashboard} />
-            <PrivateRoute exact path='/planning' component={Planning} />
-            <PrivateRoute exact path='/customers' component={Customers} />
-            <PrivateRoute exact path='/manage/' component={Manage} />
-            <PrivateRoute
-              path='/customers/details/:id'
-              component={CustomersDetails}
-            />
-          </Switch>
+  const authRender = () => {
+    console.log('private router');
+
+    return (
+      <div className='secured-container'>
+        <Header />
+        <div className='secured-container__main-content'>
+          <OptionsMenu />
+          <BackToTop />
+          <div className='private-route-container'>
+            <Switch location={location} key={location.key}>
+              <PublicRoute exact path='/backoffice' component={Login} />
+              <Route exact path='/register' component={Register} />
+              <PrivateRoute
+                path='/backoffice/dashboard'
+                component={Dashboard}
+              />
+              <PrivateRoute exact path='/planning' component={Planning} />
+              <PrivateRoute
+                exact
+                path='/backoffice/customers'
+                component={Customers}
+              />
+              <PrivateRoute
+                exact
+                path='/backoffice/manage/'
+                component={Manage}
+              />
+              <PrivateRoute
+                path='/backoffice/customers/details/:id'
+                component={CustomersDetails}
+              />
+            </Switch>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
-  const publicRender = () => (
-    <Switch location={location} key={location.key}>
-      <PublicRoute exact path='/' component={Login} />
-      <Route exact path='/register' component={Register} />
-      <PrivateRoute exact path='/dashboard' component={Dashboard} />
-      <PrivateRoute exact path='/planning' component={Planning} />
-    </Switch>
-  );
-
+  const publicRender = () => {
+    console.log('public router');
+    return (
+      <Switch location={location} key={location.key}>
+        <PublicRoute exact path='/' component={UserLogin} />
+        <PublicRoute exact path='/backoffice' component={Login} />
+        <Route exact path='/register' component={Register} />
+      </Switch>
+    );
+  };
   return isAuthenticated ? authRender() : publicRender();
 };
 

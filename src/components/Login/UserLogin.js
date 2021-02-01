@@ -47,7 +47,7 @@ const logoTextVariant = {
   },
 };
 
-const Login = (props) => {
+const UserLogin = (props) => {
   const [userDetails, setUserDetails] = useState({
     email: 'motiphone2003@gmail.com',
     password: '1234',
@@ -87,10 +87,10 @@ const Login = (props) => {
   };
 
   return isSignedIn ? (
-    <Redirect to='backoffice/dashboard' />
+    <Redirect to='/home/' />
   ) : (
     <motion.div
-      className='login-container p-1'
+      className='login-container p-1 user-login-container'
       variants={containerVariants}
       initial='hidden'
       animate='visible'
@@ -131,12 +131,6 @@ const Login = (props) => {
           </motion.button>
           {userDetails.hasError && <Error error='Wrong credentials.' />}
           <div className='divider mt-1'></div>
-          <p className='login-container__register mt-6'>
-            Pas encore de compte?&nbsp;
-            <Link className='button bg-gray-light ' to='/register'>
-              Créer un compte
-            </Link>
-          </p>
         </div>
       </div>
     </motion.div>
@@ -149,4 +143,4 @@ const stateToProps = (state) => {
   };
 };
 
-export default connect(stateToProps, { login })(Login);
+export default connect(stateToProps, { login })(UserLogin);

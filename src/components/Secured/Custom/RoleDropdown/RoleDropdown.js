@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-const roles = ['Seller', 'Admin'];
+const roles = ['Seller', 'Admin', 'Retention'];
 
 const SellerDropdown = ({ user, onChange }) => {
   const selectRef = useRef();

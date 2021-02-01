@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ManageInventory from './ManageInventory';
+import ManageHeaders from './ManageHeaders';
 
 const ManageInventoryMenu = () => {
   const [menu, setMenu] = useState(1);
@@ -13,6 +14,9 @@ const ManageInventoryMenu = () => {
 
   const getComponent = () => {
     switch (menu) {
+      case 0: {
+        return <ManageHeaders />;
+      }
       case 1: {
         return <ManageInventory />;
       }
@@ -30,20 +34,19 @@ const ManageInventoryMenu = () => {
     <div className='manage-customers'>
       <div className='manage-customers__buttons'>
         <button
-          class={`button  bg-blue-deep-inverse ${isSelectedClass(1)}`}
+          className={`button  bg-blue-deep-inverse ${isSelectedClass(0)}`}
+          onClick={() => changeMenu(0)}
+        >
+          Manage Headers
+        </button>
+        <button
+          className={`button  bg-blue-deep-inverse ${isSelectedClass(1)}`}
           onClick={() => changeMenu(1)}
         >
-          Manage Inventory
-        </button>
-
-        <button
-          class={`button bg-blue-deep-inverse ${isSelectedClass(2)}`}
-          onClick={() => changeMenu(2)}
-        >
-          Import Customers
+          Manage Inventory Groups
         </button>
       </div>
-      <div class='manage-content'>{getComponent()}</div>
+      <div className='manage-content'>{getComponent()}</div>
     </div>
   );
 };

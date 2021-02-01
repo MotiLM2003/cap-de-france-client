@@ -37,7 +37,6 @@ const Users = () => {
   const onUserChange = (id) => {
     const _id = id.target.value;
     if (_id === '0') {
-      console.log(userTamplate);
       setCurrentUser(userTamplate);
       return;
     }
@@ -53,27 +52,35 @@ const Users = () => {
   };
 
   const onUpdate = async () => {
-    console.log(currentUser);
-    const { data } = await api.post('/users/save-user', {
-      _id: currentUser._id,
-      update: currentUser,
-    });
-    if (currentUser._id != '0') {
-      setUsers(
-        users.map((user) => {
-          return user._id === currentUser._id ? { ...currentUser } : user;
-        })
+    try {
+      console.log('trting');
+      const { data } = await api.post('/users/save-user', {
+        _id: currentUser._id,
+        update: currentUser,
+      });
+      console.log(data);
+      if (currentUser._id != '0') {
+        setUsers(
+          users.map((user) => {
+            return user._id === currentUser._id ? { ...currentUser } : user;
+          })
+        );
+        toast.success('👍  User details was updated.');
+      } else {
+        setUsers([...users, data]);
+        setCurrentUser(data);
+        toast.success('👍  New user added to the system.');
+      }
+    } catch (err) {
+      toast.error(
+        '👎  Failed! please make sure you filled all the required fields.'
       );
-      toast.success('👍  User details was updated.');
-    } else {
-      setUsers([...users, data]);
-      setCurrentUser(data);
-      toast.success('👍  New user added to the system.');
+      console.log('error');
     }
   };
   const buttonText = currentUser._id === 0 ? 'Create new user' : 'Update user';
   return (
-    <div class='users'>
+    <div className='users'>
       <SellerDropdown
         className='seller-dropdown'
         users={users}
@@ -135,7 +142,7 @@ const Users = () => {
           <RoleDropdown user={currentUser} onChange={() => {}} />
         </div>
         <div>
-          <button class='button bg-success' onClick={onUpdate}>
+          <button className='button bg-success' onClick={onUpdate}>
             {buttonText}
           </button>
         </div>

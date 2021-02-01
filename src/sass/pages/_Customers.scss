@@ -85,6 +85,12 @@
     }
   }
 
+  &__admin-panel {
+    & .button {
+      color: #fff;
+      margin: 0 0rem 0 2.5rem;
+    }
+  }
   &__toolbar-buttons {
     display: flex;
   }
@@ -200,6 +206,29 @@
     & > div:nth-child(4) button {
       color: $white !important;
     }
+  }
+
+  &__switch-container {
+    width: 80rem;
+    .button {
+      color: #fff;
+    }
+
+    select {
+      width: 150px;
+    }
+  }
+
+  &__switch-content {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+  &__switch-buttons {
+    margin: 2rem 0 0 0;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
   }
 }
 

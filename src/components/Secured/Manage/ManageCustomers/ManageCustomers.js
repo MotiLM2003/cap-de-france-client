@@ -30,20 +30,20 @@ const ManageCustomers = () => {
     <div className='manage-customers'>
       <div className='manage-customers__buttons'>
         <button
-          class={`button  bg-blue-deep-inverse ${isSelectedClass(1)}`}
+          className={`button  bg-blue-deep-inverse ${isSelectedClass(1)}`}
           onClick={() => changeMenu(1)}
         >
           Create Customers
         </button>
 
         <button
-          class={`button bg-blue-deep-inverse ${isSelectedClass(2)}`}
+          className={`button bg-blue-deep-inverse ${isSelectedClass(2)}`}
           onClick={() => changeMenu(2)}
         >
           Import Customers
         </button>
       </div>
-      <div class='manage-content'>{getComponent()}</div>
+      <div className='manage-content'>{getComponent()}</div>
     </div>
   );
 };

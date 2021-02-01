@@ -7,6 +7,7 @@ const SellerDropdown = ({
   defaultText = '-- Create new user --',
   name = 'owner',
   withSellerTitle = true,
+  withDefaultOption = true,
 }) => {
   const selectRef = useRef();
   return users ? (
@@ -16,7 +17,7 @@ const SellerDropdown = ({
       name={name}
       onChange={onUserChange}
     >
-      <option value='0'>{defaultText}</option>
+      {withDefaultOption && <option value='0'>{defaultText}</option>}
       {users.map((user) => {
         const title = withSellerTitle ? `- (${user.role.type})` : '';
         return (

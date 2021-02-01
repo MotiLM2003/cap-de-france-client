@@ -13,7 +13,7 @@ const Header = (props) => {
   return (
     <header className='header-container'>
       <div className='header-container__brand'>
-        <Link to='/dashboard'>
+        <Link to='/backoffice/dashboard'>
           <img src={img} alt='logo' />
         </Link>
         <input
@@ -23,15 +23,14 @@ const Header = (props) => {
         />
       </div>
       <div className='header-container__toolbar'>
-        <Link to='/'>
-          {props.user.role.type.toLocaleLowerCase() === 'seller' ? (
-            <i class='fas fa-user'></i>
-          ) : (
-            <Link to='/manage/'>
-              <i className='fas fa-user-shield header-container__icon-1'></i>
-            </Link>
-          )}
-        </Link>
+        {props.user.role.type.toLocaleLowerCase() === 'seller' ? (
+          <i className='fas fa-user'></i>
+        ) : (
+          <Link to='/backoffice/manage/'>
+            <i className='fas fa-user-shield header-container__icon-1'></i>
+          </Link>
+        )}
+
         <i
           className='fas fa-sign-out-alt header-container__icon-2'
           onClick={logOut}

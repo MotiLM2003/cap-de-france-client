@@ -92,7 +92,6 @@ const Register = () => {
       registerCustomer();
     }
   };
-  console.log(serverResponse);
   return (
     <motion.div
       className='login-container register'

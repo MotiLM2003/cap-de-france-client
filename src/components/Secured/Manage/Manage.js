@@ -34,31 +34,25 @@ const Manage = () => {
     <div className='manage'>
       <div className='manage__buttons'>
         <button
-          class={`button ${isSelectedClass(1)}`}
+          className={`button ${isSelectedClass(1)}`}
           onClick={() => changeMenu(1)}
         >
           Manage Users
         </button>
         <button
-          class={`button ${isSelectedClass(2)}`}
+          className={`button ${isSelectedClass(2)}`}
           onClick={() => changeMenu(2)}
         >
           Manage Customers
         </button>
         <button
-          class={`button ${isSelectedClass(3)}`}
+          className={`button ${isSelectedClass(3)}`}
           onClick={() => changeMenu(3)}
         >
           Inventory
         </button>
-        <button
-          class={`button ${isSelectedClass(4)}`}
-          onClick={() => changeMenu(4)}
-        >
-          Some thing else
-        </button>
       </div>
-      <div class='manage-content'>{getComponent()}</div>
+      <div className='manage-content'>{getComponent()}</div>
     </div>
   );
 };

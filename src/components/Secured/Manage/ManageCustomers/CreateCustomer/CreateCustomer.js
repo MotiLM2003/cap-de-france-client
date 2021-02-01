@@ -17,7 +17,6 @@ const CreateCustomer = () => {
     try {
       response = await api.post('/customers/register', currentUser);
       toast.success('👍 Customer details was successfully registered.');
-      console.log(response);
     } catch (err) {
       const { data } = err.response;
       toast.error(
@@ -101,7 +100,7 @@ const CreateCustomer = () => {
 
   const buttonText = 'Create new Customer';
   return (
-    <div class='users'>
+    <div className='users'>
       <div className='manage__sellers'>
         <div>
           <input
@@ -182,7 +181,7 @@ const CreateCustomer = () => {
         />
         {formErrors.userPassword && <p>{formErrors.userPassword}</p>}
         <div>
-          <button class='button bg-success' onClick={onLogin}>
+          <button className='button bg-success' onClick={onLogin}>
             {buttonText}
           </button>
         </div>

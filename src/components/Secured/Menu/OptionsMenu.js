@@ -14,16 +14,16 @@ const OptionsMenu = () => {
     setMenuItem(menuItem);
     switch (menuItem) {
       case 0: {
-        history.push('/dashboard');
+        history.push('/backoffice/dashboard');
         break;
       }
       case 1: {
-        history.push('/customers');
+        history.push('/backoffice/customers');
         break;
       }
 
       case 2: {
-        history.push('/planning');
+        history.push('/backoffice/planning');
         break;
       }
     }
@@ -36,7 +36,7 @@ const OptionsMenu = () => {
       }`}
     >
       <div
-        class={`secured-container__close`}
+        className={`secured-container__close`}
         onClick={() => setIsMenuOpen(!isMenuOpen)}
       >
         <label

@@ -46,10 +46,12 @@ const CustomersDetails = (props) => {
       updates = { ...updates, userPassword: customer.userPassword };
     }
 
+    console.log(updates);
     const { data } = await api.patch('customers/update/', {
       _id: customer._id,
       update: updates,
     });
+
     toast.info('🤘 User details updated!');
   };
   useEffect(() => {
@@ -79,7 +81,7 @@ const CustomersDetails = (props) => {
   return !customer ? (
     <Loader />
   ) : (
-    <div class='customers-details'>
+    <div className='customers-details'>
       <ToastContainer
         position='bottom-left'
         autoClose={2500}
@@ -112,9 +114,9 @@ const CustomersDetails = (props) => {
           <div className='customers-details__details'>
             <div className='card-container  dashboard__card-item'>
               <div className='card-container__header bg-info'>
-                <i class='fas fa-user-tie'></i> Customer Details
+                <i className='fas fa-user-tie'></i> Customer Details
               </div>
-              <div class='customers-details__personal'>
+              <div className='customers-details__personal'>
                 <div className='customers-details__form-group'>
                   <div>Active</div>
                   <div>
@@ -140,8 +142,8 @@ const CustomersDetails = (props) => {
                 <div className='customers-details__form-group'>
                   <div>Connect to personal website: </div>
                   <div>
-                    <button className='button bg-warning'>
-                      <i class='fas fa-plug'></i> Connect
+                    <button className='button bg-success'>
+                      <i className='fas fa-plug'></i> Connect
                     </button>
                   </div>
                 </div>
@@ -246,7 +248,7 @@ const CustomersDetails = (props) => {
 
             <div className='card-container  dashboard__card-item'>
               <div className='card-container__header bg-warning'>
-                <i class='fas fa-comments'></i> Comments
+                <i className='fas fa-comments'></i> Comments
               </div>
               {comments ? (
                 <CommentsHistory
@@ -260,19 +262,19 @@ const CustomersDetails = (props) => {
 
             <div className='card-container  dashboard__card-item'>
               <div className='card-container__header bg-turq'>
-                <i class='fas fa-history'></i> History
+                <i claclassNamess='fas fa-history'></i> History
               </div>
             </div>
             <div className='card-container  card-container__card-item'>
               <div className='card-container__header bg-turq'>
-                <i class='far fa-credit-card'></i> Cards
+                <i className='far fa-credit-card'></i> Cards
               </div>
             </div>
           </div>
           <div className='customers-details__extras'>
             <div className='card-container  card-container__card-item'>
               <div className='card-container__header bg-turq'>
-                <i class='fas fa-glass-cheers'></i> Champagnes
+                <i className='fas fa-glass-cheers'></i> Champagnes
               </div>
             </div>
           </div>

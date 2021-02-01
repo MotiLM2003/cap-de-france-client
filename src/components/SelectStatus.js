@@ -1,6 +1,6 @@
 import React from 'react';
 import { statuses } from '../utils/static_data';
-const SelectCampaign = ({ name, value, onChange, withAnyOption = true }) => {
+const SelectStatus = ({ name, value, onChange, withAnyOption = true }) => {
   return (
     <select value={value} onChange={onChange} name={name}>
       {withAnyOption && <option value='-1'>-- Any status --</option>}
@@ -13,4 +13,4 @@ const SelectCampaign = ({ name, value, onChange, withAnyOption = true }) => {
   );
 };
 
-export default SelectCampaign;
+export default SelectStatus;
