@@ -70,7 +70,7 @@ const Login = (props) => {
   };
 
   useEffect(() => {
-    // window.location.replace('/dashboard/');
+    // window.location = '/backoffice/dashboard/';
   }, [isSignedIn]);
 
   const initLogin = () => {
@@ -87,7 +87,7 @@ const Login = (props) => {
   };
 
   return isSignedIn ? (
-    <Redirect to='backoffice/dashboard' />
+    <Redirect to='/backoffice/dashboard' />
   ) : (
     <motion.div
       className='login-container p-1'
@@ -131,12 +131,6 @@ const Login = (props) => {
           </motion.button>
           {userDetails.hasError && <Error error='Wrong credentials.' />}
           <div className='divider mt-1'></div>
-          <p className='login-container__register mt-6'>
-            Pas encore de compte?&nbsp;
-            <Link className='button bg-gray-light ' to='/register'>
-              Créer un compte
-            </Link>
-          </p>
         </div>
       </div>
     </motion.div>

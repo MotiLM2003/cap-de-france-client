@@ -38,12 +38,10 @@ const Register = () => {
     let response = null;
     try {
       response = await api.post('/customers/register', formData);
-      console.log('response', response);
       setServerResponse(1);
       setFormData(tempCustomer);
     } catch (err) {
       const { data } = err.response;
-      console.log(data);
       setServerResponse(2);
     }
   };

@@ -45,9 +45,20 @@ const SwitchCustomer = ({
       ids,
       updates: params,
     });
-    swithcCustomersSubmit();
 
-    console.log(data);
+    const logs = customers
+      .filter((x) => x.isMarked)
+      .map((customer) => {
+        return {
+          ownerFrom: customer.owner._id,
+          ownerTo: params.owner,
+          customer: customer._id,
+        };
+      });
+
+    const { data2 } = await api.post('/customers-switch/save-many', logs);
+
+    swithcCustomersSubmit();
   };
 
   return (

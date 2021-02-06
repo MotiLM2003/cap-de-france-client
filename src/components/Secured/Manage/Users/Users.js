@@ -53,12 +53,10 @@ const Users = () => {
 
   const onUpdate = async () => {
     try {
-      console.log('trting');
       const { data } = await api.post('/users/save-user', {
         _id: currentUser._id,
         update: currentUser,
       });
-      console.log(data);
       if (currentUser._id != '0') {
         setUsers(
           users.map((user) => {
@@ -139,7 +137,12 @@ const Users = () => {
           name='userPassword'
         />
         <div>
-          <RoleDropdown user={currentUser} onChange={() => {}} />
+          <RoleDropdown
+            user={currentUser}
+            onChange={(value) => {
+              setCurrentUser({ ...currentUser, role: { type: value } });
+            }}
+          />
         </div>
         <div>
           <button className='button bg-success' onClick={onUpdate}>

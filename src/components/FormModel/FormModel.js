@@ -77,9 +77,7 @@ const FormModel = ({
           </motion.div>
         </motion.div>
       </React.Fragment>
-    ) : (
-      'null'
-    );
+    ) : null;
   };
   return ReactDOM.createPortal(
     modelRender(),

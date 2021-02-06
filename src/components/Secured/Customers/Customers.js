@@ -29,7 +29,8 @@ const Customers = (props) => {
     campaign: '-1',
     startDate: '',
     endDate: '',
-    owner: props.user.role.type === 'admin' ? '0' : props.user._id,
+    owner:
+      props.user.role.type.toLowerCase() === 'admin' ? '0' : props.user._id,
     showAll: false,
   };
 
@@ -90,7 +91,6 @@ const Customers = (props) => {
     if (customers) {
       setIsLoading(false);
     }
-    console.log(customers);
   }, [customers]);
 
   useEffect(() => {
@@ -230,11 +230,11 @@ const Customers = (props) => {
   };
 
   const filtersChanged = (e) => {
+    console.log('fiired', e.target.name);
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
   const updateCustomer = async (customer) => {
-    console.log(customer.status);
     const newStatus = { ...customer, status: customer.status };
 
     setCustomers(
@@ -252,7 +252,6 @@ const Customers = (props) => {
         update: { status: customer.status },
       });
 
-      console.log(data);
       toast.info('🤟 Status updated.', {
         position: 'bottom-left',
         autoClose: 2500,
@@ -288,19 +287,19 @@ const Customers = (props) => {
 
   const changeSwithCustomers = () => {
     const isOn = isSwitchCustomer;
-    console.log(isOn);
     setIsSwitchCustomer((prev) => !prev);
     if (isOn) {
       setFilters({ ...filters, showAll: false });
-      console.log('fired');
       // getByOwner(filters);
     }
   };
 
   const swithcCustomersSubmit = () => {
     setIsSwitchCustomer(false);
+
     getByOwner(filters);
   };
+  console.log(props.user.role.type);
   return (
     <div className='customers'>
       {isLoading && <Loader />}
@@ -425,7 +424,7 @@ const Customers = (props) => {
             Reset
           </button>
 
-          {props.user.role.type === 'admin' && (
+          {props.user.role.type.toLowerCase() === 'admin' && (
             <div
               className='customers__admin-panel'
               style={{
@@ -480,7 +479,7 @@ const Customers = (props) => {
         >
           <thead>
             <tr className='bg-grey'>
-              {props.user.role.type === 'admin' ? (
+              {props.user.role.type.toLowerCase() === 'admin' ? (
                 <th>
                   <input
                     type='checkbox'
@@ -516,7 +515,7 @@ const Customers = (props) => {
               lnRef={lnRef}
               phRef={phRef}
               emRef={emRef}
-              showCheckbox={props.user.role.type === 'admin'}
+              showCheckbox={props.user.role.type.toLowerCase() === 'admin'}
             />
           </thead>
           <tbody>
@@ -530,7 +529,7 @@ const Customers = (props) => {
                   addComment={addComment}
                   deleteComment={deleteComment}
                   onUserMarked={onUserMarked}
-                  showCheckbox={props.user.role.type === 'admin'}
+                  showCheckbox={props.user.role.type.toLowerCase() === 'admin'}
                 />
               ))}
           </tbody>

@@ -21,7 +21,6 @@ const ImportCustomers = () => {
   const [fileId, setFileId] = useState(null);
   const [sellers, setSellers] = useState(null);
   const onSetUsers = (newUsers) => {
-    console.log(newUsers);
     setUsers(newUsers.users);
     setFileId(newUsers.id);
   };

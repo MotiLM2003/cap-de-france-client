@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 const PublicRoute = ({ isAuthenticated, component: Component, ...rest }) => {
+  console.log('in public');
   return (
     <Route
       {...rest}

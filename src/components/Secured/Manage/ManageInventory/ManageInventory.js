@@ -60,8 +60,6 @@ const ManageInventory = () => {
 
   const editGroup = async (id) => {
     const group = groups.find((g) => g._id === id);
-    console.log(group.items);
-    console.log(group);
     const { data } = await api.patch(`/inventroy/update-group/${id}`, {
       items: group.items,
     });

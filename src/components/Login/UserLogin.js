@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { motion } from 'framer-motion';
-import { login } from '../../actions/userActions';
+import { login } from '../../actions/customersActions';
 import Bubbles from '../Bubbles/Bubbles';
 import Error from './Error';
 
@@ -61,16 +61,17 @@ const UserLogin = (props) => {
   }, []);
 
   useEffect(() => {
-    const _isSignedIn = !!props.user?._id;
+    const _isSignedIn = !!props.customer?._id;
+    console.log(_isSignedIn);
     setIsSignedIn(_isSignedIn);
-  }, [props.user?._id]);
+  }, [props.customer?._id]);
 
   const onChange = (e) => {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
-    // window.location.replace('/dashboard/');
+    if (isSignedIn) window.location = "/home";
   }, [isSignedIn]);
 
   const initLogin = () => {
@@ -84,11 +85,11 @@ const UserLogin = (props) => {
     if (!hasError) {
       props.login(userDetails);
     }
+
+    console.log(isSignedIn);
   };
 
-  return isSignedIn ? (
-    <Redirect to='/home/' />
-  ) : (
+  return  (
     <motion.div
       className='login-container p-1 user-login-container'
       variants={containerVariants}
@@ -131,6 +132,12 @@ const UserLogin = (props) => {
           </motion.button>
           {userDetails.hasError && <Error error='Wrong credentials.' />}
           <div className='divider mt-1'></div>
+          <p className='login-container__register mt-6'>
+            Pas encore de compte?&nbsp;
+            <Link className='button bg-gray-light ' to='/register'>
+              Créer un compte
+            </Link>
+          </p>
         </div>
       </div>
     </motion.div>
@@ -139,7 +146,7 @@ const UserLogin = (props) => {
 
 const stateToProps = (state) => {
   return {
-    user: state.userReducer,
+    customer: state.customerReducer,
   };
 };
 

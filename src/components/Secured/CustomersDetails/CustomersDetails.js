@@ -4,7 +4,7 @@ import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
 import CommentsHistory from '../Customers/CommentsHistory';
 import Loader from '../../Loader/Loader';
-
+import SwitchCustomerLogs from './SwitchCustomerLogs';
 import SelectCampaign from '../../SelectCampaign';
 import SelectStatus from '../../SelectStatus';
 
@@ -46,7 +46,6 @@ const CustomersDetails = (props) => {
       updates = { ...updates, userPassword: customer.userPassword };
     }
 
-    console.log(updates);
     const { data } = await api.patch('customers/update/', {
       _id: customer._id,
       update: updates,
@@ -281,7 +280,7 @@ const CustomersDetails = (props) => {
         </div>
 
         <div id='2' className={`${isSelected('2') ? '' : 'hide'}`}>
-          Section two
+          <SwitchCustomerLogs customer={customer} />
         </div>
       </section>
     </div>
