@@ -1,11 +1,16 @@
 export default (state = {}, action) => {
   switch (action.type) {
     case 'CUSTOMER_LOG_IN': {
-      console.log('data', action.payload);
       return { ...action.payload };
     }
     case 'CUSTOMER_LOG_OUT': {
-      return {};
+      return {
+        ...state,
+      };
+    }
+    case 'ADD_INVENTORY': {
+      // state.inventories.push()
+      return { ...state, inventories: [...state.inventories, action.payload] };
     }
     case 'GET_ALL': {
       return state;

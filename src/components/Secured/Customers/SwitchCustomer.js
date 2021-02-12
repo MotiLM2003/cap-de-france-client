@@ -50,8 +50,8 @@ const SwitchCustomer = ({
       .filter((x) => x.isMarked)
       .map((customer) => {
         return {
-          ownerFrom: customer.owner._id,
-          ownerTo: params.owner,
+          ownerFrom: customer.owner?._id,
+          ownerTo: params?.owner,
           customer: customer._id,
         };
       });

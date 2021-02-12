@@ -5,11 +5,9 @@ import moment from 'moment';
 const SwitchCustomerLogs = ({ customer }) => {
   const [logs, setLogs] = useState(null);
   const getLogs = async () => {
-    console.log(customer._id);
     const { data } = await api.get(
       `/customers-switch/get-by-customer/${customer._id}`
     );
-    console.log('test', data);
     setLogs(data);
   };
 
@@ -33,7 +31,6 @@ const SwitchCustomerLogs = ({ customer }) => {
     return (
       logs &&
       logs.map((log) => {
-        console.log(log.owner);
         const date = moment(log.createdAt).format('DD-MM-YY HH:mm:ss');
         return (
           <div key={log._id} className='customers-details__history'>

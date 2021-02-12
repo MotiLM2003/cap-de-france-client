@@ -38,7 +38,6 @@ const Customers = (props) => {
   const [isNewUser, setIsNewUser] = useState(false);
   const [newCustomer, setNewCustomer] = useState(newUser);
   const [isSwitchCustomer, setIsSwitchCustomer] = useState(false);
-
   const [formError, setFormError] = useState('');
   const [filters, setFilters] = useState(sFilters);
   const [isLoading, setIsLoading] = useState(false);
@@ -230,7 +229,6 @@ const Customers = (props) => {
   };
 
   const filtersChanged = (e) => {
-    console.log('fiired', e.target.name);
     setFilters({ ...filters, [e.target.name]: e.target.value });
   };
 
@@ -299,7 +297,6 @@ const Customers = (props) => {
 
     getByOwner(filters);
   };
-  console.log(props.user.role.type);
   return (
     <div className='customers'>
       {isLoading && <Loader />}

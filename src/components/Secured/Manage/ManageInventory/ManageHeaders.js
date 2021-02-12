@@ -66,8 +66,6 @@ const ManageHeaders = () => {
       toast.error('👎 Something went wrong.');
       console.log(e);
     }
-
-    // console.log(header);
   };
   // framer motion variants;
   const inputVariant = {

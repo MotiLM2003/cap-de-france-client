@@ -17,7 +17,6 @@ const ManageInventory = () => {
       return group;
     });
 
-    console.log(newItems);
   };
 
   const getHeaders = async () => {

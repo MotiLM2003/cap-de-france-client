@@ -68,20 +68,17 @@ const AppRouter = ({ isAuthenticated, isCustomerAuth }) => {
   };
 
   const customerPrivateRender = () => {
-   
     return (
-      <div>
-      <CustomerHeader />
-      <Switch location={location} key={location.key}>
-       
-        <PublicRoute path='/' component={HomePage} />
-        <PublicRoute path='/home/' component={HomePage} />
+      <div class='customer-area'>
+        <CustomerHeader />
+        <Switch location={location} key={location.key}>
+          <PublicRoute path='/' component={HomePage} />
+          <PublicRoute path='/home/' component={HomePage} />
         </Switch>
-        </div>
+      </div>
     );
   };
 
-  console.log(isCustomerAuth);
   if (isCustomerAuth) {
     return customerPrivateRender();
   } else {
@@ -90,7 +87,6 @@ const AppRouter = ({ isAuthenticated, isCustomerAuth }) => {
 };
 
 const mapStateToProps = (state) => {
-
   return {
     user: state.userReducer,
     isAuthenticated: !!state.userReducer._id,

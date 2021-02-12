@@ -4,6 +4,12 @@ export const login = (userDetails) => async (dispatch) => {
   try {
     const { data } = await api.post('/customers/login', userDetails);
 
+    if (data.customer) {
+      const { data2 } = await api.post('/customers-logs/save', {
+        customer: data.customer._id,
+        owner: data.customer.owner,
+      });
+    }
     dispatch({
       type: 'CUSTOMER_LOG_IN',
       payload: data.customer,
@@ -11,6 +17,16 @@ export const login = (userDetails) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const addInventoryGroup = (group) => async (dispatch) => {
+  const { data } = await api.post('/customers-inventory/save', group);
+  group._id = data._id;
+
+  dispatch({
+    type: 'ADD_INVENTORY',
+    payload: data,
+  });
 };
 
 export const loadData = (token) => async (dispatch) => {

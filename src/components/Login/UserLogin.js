@@ -62,7 +62,6 @@ const UserLogin = (props) => {
 
   useEffect(() => {
     const _isSignedIn = !!props.customer?._id;
-    console.log(_isSignedIn);
     setIsSignedIn(_isSignedIn);
   }, [props.customer?._id]);
 
@@ -71,7 +70,13 @@ const UserLogin = (props) => {
   };
 
   useEffect(() => {
-    if (isSignedIn) window.location = "/home";
+    
+    if (isSignedIn) {
+      // saveLog();
+      // window.location = '/home';
+    
+    }
+
   }, [isSignedIn]);
 
   const initLogin = () => {
@@ -85,11 +90,9 @@ const UserLogin = (props) => {
     if (!hasError) {
       props.login(userDetails);
     }
-
-    console.log(isSignedIn);
   };
 
-  return  (
+  return (
     <motion.div
       className='login-container p-1 user-login-container'
       variants={containerVariants}

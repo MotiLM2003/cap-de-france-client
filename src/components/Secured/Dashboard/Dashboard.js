@@ -1,37 +1,15 @@
 import React, { useEffect } from 'react';
 import Loader from '../../Loader/Loader';
 import { motion } from 'framer-motion';
+import { connect } from 'react-redux';
+import api from '../../../apis/api';
 
-const containerVariants = {
-  hidden: {
-    opacity: 0,
-  },
-  visible: {
-    opacity: 1,
-    transition: { duration: 0.5, staggerChildren: 0.3 },
-  },
-};
+import CustomerLogs from './DCustomersLogs/CustomersLogs'
 
-const itemVariants = {
-  hidden: {
-    opacity: 0,
-    scale: 0,
-    y: '-100vh',
-  },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      duration: 0.4,
-      type: 'spring',
-      ease: 'easeInOut',
-      stiffness: 50,
-    },
-  },
-};
+import {containerVariants,itemVariants} from './variants'
 
-const Dashboard = () => {
+
+const Dashboard = (props) => {
   useEffect(() => {
     document.title = 'Champagne Deutz - Dashboard';
   }, []);
@@ -66,6 +44,7 @@ const Dashboard = () => {
           <div className='card-container__header bg-blue'>
             Last Customers Connection
           </div>
+          <CustomerLogs />
         </motion.div>
         <motion.div
           className='card-container dashboard__card-item'
@@ -83,5 +62,7 @@ const Dashboard = () => {
     </div>
   );
 };
-
-export default Dashboard;
+const mapStateToProps = (state) => {
+  return { user: state.userReducer }
+}
+export default    connect(mapStateToProps)(Dashboard);

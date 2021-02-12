@@ -6,7 +6,6 @@ import history from '../../../history';
 import close from '../../../images/close.svg';
 
 const OptionsMenu = (props) => {
-  console.log(props.user.role.type.toLocaleLowerCase());
   const [menuItem, setMenuItem] = useState(0);
   const [subMenuItem, setSubMenuItem] = useState(0);
   const [isSubMenuOn, setIsSubMenuOn] = useState(false);
