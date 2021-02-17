@@ -30,6 +30,9 @@ ul {
   }
 }
 
+.textCenter {
+  text-align: center !important;
+}
 // WIDTH
 
 .w-1 {
@@ -142,14 +145,31 @@ ul {
 
 .bg-warning {
   background-color: $danger;
+  color: #fff;
 }
 
 .bg-success {
   background-color: $success;
 }
+.bg-in-success {
+  border-color: $success !important;
+}
 
+.bg-in-success:hover {
+  background: $success !important;
+  color: #fff !important;
+}
+.bg-in-warning {
+  border-color: $danger !important;
+}
+
+.bg-in-warning:hover {
+  background: $danger !important;
+  color: #fff !important;
+}
 .bg-white {
   background-color: $white !important;
+  color: #000;
 }
 
 .bg-grey {
@@ -189,6 +209,11 @@ ul {
 
 .alt {
   background: rgba($blue-deep, 0.1) !important;
+}
+
+.flex-break {
+  flex-basis: 100% !important;
+  height: 0;
 }
 
 .danger {

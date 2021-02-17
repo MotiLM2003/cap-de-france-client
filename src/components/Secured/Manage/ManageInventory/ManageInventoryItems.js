@@ -12,8 +12,6 @@ const ManageInventoryItems = ({ headers, group, setGroupItems }) => {
   };
 
   useEffect(() => {
-    // console.log(items);
-
     setGroupItems(items, group._id);
   }, [items]);
 

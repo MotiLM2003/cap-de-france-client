@@ -41,6 +41,8 @@ const CustomerItem = ({
     });
   };
 
+  const homepageLink = `/backoffice/customers/details/${customer._id}`;
+
   return (
     <tr className={className}>
       {showCheckbox ? (
@@ -55,14 +57,10 @@ const CustomerItem = ({
 
       <td>{date}</td>
       <td>
-        <Link to={`/backoffice/customers/details/${customer._id}`}>
-          {customer.firstName}
-        </Link>
+        <Link to={homepageLink}>{customer.firstName}</Link>
       </td>
       <td>
-        <Link to={`/backoffice/backoffice/customers/details/${customer._id}`}>
-          {customer.lastName}
-        </Link>
+        <Link to={homepageLink}>{customer.lastName}</Link>
       </td>
       <td>{customer.phone}</td>
       <td>
@@ -109,9 +107,7 @@ const CustomerItem = ({
         </div>
       </td>
       <td>
-        <Link to={`/backoffice/customers/details/${customer._id}`}>
-          {customer.email}
-        </Link>
+        <Link to={homepageLink}>{customer.email}</Link>
       </td>
       <td>{customer.country}</td>
       <td>{customer.owner ? customer.owner.firstName : 'Uncontrolled'}</td>

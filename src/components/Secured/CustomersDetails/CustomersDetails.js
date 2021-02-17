@@ -244,6 +244,12 @@ const CustomersDetails = (props) => {
                 </div>
               </div>
             </div>
+            <div className='card-container  dashboard__card-item'>
+              <div className='card-container__header bg-warning'>
+                <i class='fas fa-wallet'></i> Deposit
+              </div>
+              <div className='customer-details__deposits'>dsd</div>
+            </div>
 
             <div className='card-container  dashboard__card-item'>
               <div className='card-container__header bg-warning'>

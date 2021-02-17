@@ -21,3 +21,5 @@ export const statuses = [
   'callback',
   'interested',
 ];
+
+export const deposits = ['Real', 'False', 'Bouns'];

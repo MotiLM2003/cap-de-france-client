@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
-import DateCountdown from 'react-date-countdown-timer';
 
 import moment from 'moment';
 import { tdItem, tdOpacityVariant } from '../variations';
 import { formatMoney } from '../../../../utils/formatting';
-
 const WaitingInventoryRequets = (props) => {
   const { headers } = props;
   const [currentGroups, setCurrentGroups] = useState(null);
@@ -22,7 +20,6 @@ const WaitingInventoryRequets = (props) => {
 
   useEffect(() => {
     const groups = getFilterdGroup();
-    // console.log(groups);
     setCurrentGroups(groups);
   }, [props.customer.inventories.length]);
   const renderHeaders = () => {
@@ -38,7 +35,7 @@ const WaitingInventoryRequets = (props) => {
     return (
       currentGroups &&
       currentGroups.map((group) => {
-        const date = moment(group.expiration).format('DD-MM-YY HH:mm:ss');
+        const date = moment(group.createdAt).format('DD-MM-YY HH:mm:ss');
         return (
           <motion.tr key={group._id} variants={tdItem}>
             {group.inventory.items.map((item, index) => {
@@ -53,11 +50,7 @@ const WaitingInventoryRequets = (props) => {
               );
             })}
             <td className='home-page-container__add-item' onClick={() => {}}>
-              <DateCountdown
-                dateTo='January 01, 2023 00:00:00 GMT+03:00'
-                callback={() => alert('Hello')}
-              />
-              ;
+              {date}
             </td>
           </motion.tr>
         );

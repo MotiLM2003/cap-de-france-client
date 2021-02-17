@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 import { connect } from 'react-redux';
 import api from '../../../apis/api';
 
-import CustomerLogs from './DCustomersLogs/CustomersLogs'
+import CustomerLogs from './DCustomersLogs/CustomersLogs';
+import DWaitingRequests from './NewPending/DWaitingRequests';
 
-import {containerVariants,itemVariants} from './variants'
-
+import { containerVariants, itemVariants } from './variants';
 
 const Dashboard = (props) => {
   useEffect(() => {
@@ -27,8 +27,22 @@ const Dashboard = (props) => {
           className='card-container  dashboard__card-item'
           variants={itemVariants}
         >
-          <div className='card-container__header bg-warning'>Pending Cards</div>
+          <div className='card-container__header bg-warning'>
+            Pending order requests
+          </div>
+          <DWaitingRequests />
         </motion.div>
+
+        <motion.div
+          className='card-container  dashboard__card-item'
+          variants={itemVariants}
+        >
+          <div className='card-container__header bg-warning'>
+            Pending offers requests
+          </div>
+          pending offers
+        </motion.div>
+
         <motion.div
           className='card-container dashboard__card-item'
           variants={itemVariants}
@@ -63,6 +77,6 @@ const Dashboard = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  return { user: state.userReducer }
-}
-export default    connect(mapStateToProps)(Dashboard);
+  return { user: state.userReducer };
+};
+export default connect(mapStateToProps)(Dashboard);

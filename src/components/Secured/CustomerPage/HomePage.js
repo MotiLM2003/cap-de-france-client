@@ -10,6 +10,8 @@ import 'react-input-range/lib/css/index.css';
 import Pagination from './Pagination';
 import FormModel from '../../FormModel/FormModel';
 import MaCave from './MaCave/MaCave';
+import UserDetails from './MaCave/UserDetails';
+
 import {
   containerVariants,
   itemVariants,
@@ -230,7 +232,10 @@ const HomePage = (props) => {
               <i class='fas fa-wine-bottle'></i>MA CAVE
             </h2>
 
-            <MaCave headers={headers} />
+            <MaCave
+              headers={headers}
+              inventories={props.customer.inventories}
+            />
           </div>
         </motion.div>
         <motion.div className='cards-container__card' variants={itemVariants3}>
@@ -238,7 +243,7 @@ const HomePage = (props) => {
             <h2>
               <i class='fas fa-file-invoice-dollar'></i>MON COMPTE
             </h2>
-
+            <UserDetails />
             <div className=''></div>
           </div>
         </motion.div>

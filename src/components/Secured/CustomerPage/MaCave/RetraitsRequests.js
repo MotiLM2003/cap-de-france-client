@@ -1,35 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
+import moment from 'moment';
 import { tdItem, tdOpacityVariant } from '../variations';
 import { formatMoney } from '../../../../utils/formatting';
-import { updateGroup } from '../../../../actions/customersActions';
 import FormModel from '../../../FormModel/FormModel';
+import { updateGroup } from '../../../../actions/customersActions';
 
-const ApprovedInventoryRequests = (props) => {
+const RetraitsRequests = (props) => {
   const { headers } = props;
   const [groups, setGroups] = useState(null);
-  const [currentGroup, setCurentGroups] = useState(null);
+  const [currentGroup, setCurrentGroup] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
+
+  const getFilterdGroup = () => {
+    return props.customer.inventories.filter((x) => x.status === 2);
+  };
+
   useEffect(() => {
-    const groups = props.customer.inventories
-      .filter((x) => x.status === 1)
-      .map((group) => group.inventory);
+    const groups = getFilterdGroup();
     setGroups(groups);
-    console.log(' effect', groups);
   }, []);
 
   useEffect(() => {
+    const groups = getFilterdGroup();
+    setGroups(groups);
+  }, [props.customer.inventories.length]);
+
+  useEffect(() => {
     const newGroups = props.customer.inventories
-      .filter((x) => x.status === 1)
+      .filter((x) => x.status === 2)
       .map((group) => ({ _id: group._id, inventory: group.inventory }));
     setGroups(newGroups);
+    console.log('customers', newGroups);
   }, [props.customer]);
 
-  const loadRetraitsModal = (group) => {
-    setCurentGroups(group);
-    setIsVisible(true);
-  };
   const renderHeaders = () => {
     return (
       headers &&
@@ -39,17 +44,21 @@ const ApprovedInventoryRequests = (props) => {
     );
   };
 
-  const moveToRetrait = () => {
-    const temp = { ...currentGroup, status: 2 };
-    console.log(temp._id);
+  const moveToMaCave = () => {
+    const temp = { ...currentGroup, status: 1 };
     setIsVisible(false);
-    props.updateGroup(temp, { status: 2 });
+    props.updateGroup(temp, { status: 1 });
   };
 
+  const loadMaCaveModel = (group) => {
+    setCurrentGroup(group);
+    setIsVisible(true);
+  };
   const renderInventory = () => {
     return (
       groups &&
       groups.map((group) => {
+        const date = moment(group.createdAt).format('DD-MM-YY HH:mm:ss');
         return (
           <motion.tr key={group._id} variants={tdItem}>
             {group.inventory.items.map((item, index) => {
@@ -63,11 +72,14 @@ const ApprovedInventoryRequests = (props) => {
                 </AnimatePresence>
               );
             })}
+            <td className='home-page-container__add-item' onClick={() => {}}>
+              {date}
+            </td>
             <td
-              className='home-page-container__add-item'
-              onClick={() => loadRetraitsModal(group)}
+              className='home-page-container__add-item textCenter'
+              onClick={() => loadMaCaveModel(group)}
             >
-              Retraits
+              Ma Cave
             </td>
           </motion.tr>
         );
@@ -81,7 +93,8 @@ const ApprovedInventoryRequests = (props) => {
         <thead>
           <tr>
             {renderHeaders()}
-            <th>Action</th>
+            <th>Expiration</th>
+            <th className='textCenter'>Action</th>
           </tr>
         </thead>
         <tbody>{renderInventory()}</tbody>
@@ -91,7 +104,7 @@ const ApprovedInventoryRequests = (props) => {
           <h2 className='add-item-header'>CONFIRMATION REQUISE</h2>
           <p>effectuer le retrait</p>
           <div className='add-item-buttons'>
-            <button className='button bg-success' onClick={moveToRetrait}>
+            <button className='button bg-success' onClick={moveToMaCave}>
               Qui
             </button>
             <button
@@ -115,6 +128,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { updateGroup })(
-  ApprovedInventoryRequests
-);
+export default connect(mapStateToProps, { updateGroup })(RetraitsRequests);

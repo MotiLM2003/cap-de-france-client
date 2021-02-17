@@ -20,6 +20,7 @@ body {
     & > div {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       color: #fff;
       width: 100%;
       margin-left: 1rem;
@@ -30,6 +31,7 @@ body {
         display: flex;
         align-items: center;
         gap: 1rem;
+        flex-wrap: wrap;
       }
       & i {
         font-size: 2rem !important;
@@ -65,7 +67,7 @@ body {
     cursor: pointer;
     transition: all 0.5s linear;
     &:hover {
-      background-color: $white !important;
+      background-color: $white;
       color: #000;
       font-weight: bold;
       border-color: #000;
@@ -347,12 +349,65 @@ body {
     border-radius: 0.5rem;
     cursor: pointer;
     transition: all 0.5s;
+    position: relative;
     &--selected,
     &:hover {
       background: rgba(255, 255, 255, 0.5);
       // clip-path: polygon(100% 11%, 98% 90%, 0 100%, 0 52%, 0% 0%);
       transform: skew(-7deg);
     }
+
+    & span {
+      position: absolute;
+      left: -0.5rem;
+      top: -1rem;
+
+      padding: 0.72rem;
+      font-size: 0.7em;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 0, 0, 0.7);
+      width: 12px;
+      height: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .blinker {
+    animation-name: blink;
+    animation-duration: 1s;
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink {
+    0% {
+      background-color: rgba(0, 0, 0, 0.5) !important;
+      transform: scale(1);
+      transform: skew(0deg);
+      color: rgba(0, 0, 0, 0.5) !important;
+    }
+    50% {
+      background: rgba(255, 255, 255, 0.5) !important;
+      transform: scale(1.05) skew(-7deg);
+      color: rgba(255, 255, 255, 0.5) !important;
+    }
+    100% {
+      background-color: rgba(0, 0, 0, 0.5) !important;
+      transform: scale(1);
+      transform: skew(0deg);
+      color: rgba(0, 0, 0, 0.5) !important;
+    }
+  }
+
+  .tag-white {
+    background: rgba(255, 255, 255, 0.65);
+    color: #000;
+  }
+
+  .tag-red {
+    background: rgba($danger, 0.75);
+    color: $white;
   }
 
   &__content {
@@ -365,4 +420,81 @@ body {
     box-shadow: -0.3rem 0.3rem 0.1rem 0rem rgba(255, 255, 255, 0.6),
       -0.5rem 0.5rem 0.1rem 0rem rgba(0, 0, 0, 0.6);
   }
+
+  & .home-page-container__add-item {
+    cursor: default !important;
+  }
+}
+
+//  pending requests
+
+.pending-requests {
+  // display: flex;
+  gap: 1rem;
+
+  &__buttons {
+    display: flex;
+    gap: 1rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    & button {
+      color: #fff;
+    }
+
+    & input {
+      width: 9rem;
+      margin-right: 7px;
+      text-align: center;
+    }
+  }
+
+  &__orders-list {
+    flex-basis: 75%;
+  }
+
+  &__split-content {
+    display: flex;
+    & > div {
+      flex-grow: 1;
+    }
+  }
+}
+
+.pending-orders {
+  flex-basis: 20%;
+  margin: 3rem 0rem;
+
+  &__header {
+    background: #d8e1eb;
+    padding: 1rem;
+    margin: 0 0 2rem 0;
+  }
+
+  & > div {
+    flex-grow: 1;
+  }
+
+  &__no-offers {
+    min-height: 15rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 3rem;
+    color: $gray-light;
+  }
+
+  &__order-list {
+    display: flex;
+    gap: 1rem;
+    & > div {
+      text-align: center;
+      padding: 1rem;
+      border-bottom: 1px solid $gray-light;
+    }
+  }
+}
+
+.user-details {
 }

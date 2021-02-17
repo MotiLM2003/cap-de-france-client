@@ -29,6 +29,36 @@ export const addInventoryGroup = (group) => async (dispatch) => {
   });
 };
 
+export const deleteInventoryOffer = ({ group, offerId }) => async (
+  dispatch
+) => {
+  const { data } = await api.post(
+    `customers-inventory/delete-offer/${group._id}`,
+    {
+      _id: offerId,
+    }
+  );
+
+  console.log('data', data);
+
+  dispatch({
+    type: 'DELETE_INVENTORY_OFFER',
+    payload: { group, offerId },
+  });
+};
+
+export const updateGroup = (group, updates) => async (dispatch) => {
+  const { data } = await api.put(
+    `customers-inventory/update-one/${group._id}`,
+    updates
+  );
+
+  dispatch({
+    type: 'UPDATE_GROUP_STATUS',
+    payload: { groupId: group, updates },
+  });
+};
+
 export const loadData = (token) => async (dispatch) => {
   try {
     const { data } = await api.post('/customers/validateToken', { token });
